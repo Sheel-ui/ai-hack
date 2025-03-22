@@ -30,7 +30,7 @@ export default function RootLayout({
       >
         {/* Navbar is placed here so it appears on all pages */}
         <Navbar />
-        <main>{children}</main>
+        <main className="min-h-[calc(100vh-4rem)]">{children}</main>
       </body>
     </html>
   );
