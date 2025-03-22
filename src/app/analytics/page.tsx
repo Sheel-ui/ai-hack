@@ -28,12 +28,10 @@ import {
   Instagram,
   Star,
   ExternalLink,
-  ArrowUpRight,
   Eye,
   ThumbsUp,
   MessageSquare,
   FileText,
-  Download,
 } from "lucide-react";
 
 // Define types for our data structures
@@ -590,7 +588,7 @@ export default function Analytics() {
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] w-full">
-      <div className="flex-1 p-6 overflow-y-auto">
+      <div className="flex-1 p-6 overflow-y-auto px-16 pl-24">
         {/* Header Section */}
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -613,7 +611,7 @@ export default function Analytics() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex gap-2 mb-6 border-b pb-2">
+        <div className="flex gap-2 mb-6  pb-2">
           <Button
             variant={activeTab === "overview" ? "default" : "outline"}
             onClick={() => setActiveTab("overview")}
@@ -1013,10 +1011,10 @@ export default function Analytics() {
         )}
       </div>
       {/* Sidebar - Recommended Influencers and Instagram Pages */}
-      <div className="w-1/4 bg-white p-4 shadow-md overflow-y-auto">
+      <div className="w-1/4 bg-white p-8 shadow-md overflow-y-auto">
         <div className="mb-6">
           <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
-            <Users className="h-5 w-5 text-blue-500" />
+            {/* <Users className="h-5 w-5 text-blue-500" /> */}
             Recommended Influencers
           </h2>
           <div className="space-y-4">
@@ -1053,14 +1051,14 @@ export default function Analytics() {
                     {influencer.instagram_data.followersCount.toLocaleString()} followers
                   </div>
                 </div>
-                <a
+                {/* <a
                   href={influencer.instagram_data.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:text-blue-700"
                 >
                   <ExternalLink className="h-4 w-4" />
-                </a>
+                </a> */}
               </div>
             ))}
           </div>
