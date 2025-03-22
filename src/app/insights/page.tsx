@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import insightData from './data/insight.json';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import insightData from "./data/insight.json";
 import { ArrowUpRight, Lightbulb, TrendingUp, MessageSquare, Eye, Play, Target, LineChart, BarChart2 } from "lucide-react";
 
 export default function Insights() {
@@ -14,16 +14,18 @@ export default function Insights() {
   const { key_performance_indicators, content_effectiveness, audience_segmentation, opportunities_for_improvement } = reel_analysis;
 
   // Data for KPI chart
-  const kpiData = key_performance_indicators.map(kpi => ({
-    name: kpi.metric,
-    value: kpi.value,
-  })).filter(item => typeof item.value === 'number');
+  const kpiData = key_performance_indicators
+    .map((kpi) => ({
+      name: kpi.metric,
+      value: kpi.value,
+    }))
+    .filter((item) => typeof item.value === "number");
 
   // Colors for charts
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 
   return (
-    <div className="flex flex-col p-6 min-h-[calc(100vh-4rem)] w-full bg-gray-50">
+    <div className="flex flex-col p-6 min-h-[calc(100vh-4rem)] w-full max-w-6xl mx-auto pt-12">
       {/* Header Section */}
       <div className="flex justify-between items-center mb-6">
         <div>
@@ -31,27 +33,30 @@ export default function Insights() {
           <p className="text-gray-600 mt-1">Detailed analysis and recommendations for your latest content</p>
         </div>
         <Button className="flex items-center gap-2">
-          Export Report <ArrowUpRight className="h-4 w-4" />
+          <a
+            href="https://drive.google.com/file/d/1WkIVNa4pLs-OzuKDQesNySa3I-GS3UOI/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2"
+          >
+            Export Report <ArrowUpRight className="h-4 w-4" />
+          </a>
         </Button>
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex gap-2 mb-6 border-b pb-2">
-        <Button 
-          variant={activeTab === "overview" ? "default" : "outline"}
-          onClick={() => setActiveTab("overview")}
-          className="rounded-md"
-        >
+      <div className="flex gap-2 mb-6 pb-2">
+        <Button variant={activeTab === "overview" ? "default" : "outline"} onClick={() => setActiveTab("overview")} className="rounded-md">
           Overview
         </Button>
-        <Button 
+        <Button
           variant={activeTab === "performance" ? "default" : "outline"}
           onClick={() => setActiveTab("performance")}
           className="rounded-md"
         >
           Performance Metrics
         </Button>
-        <Button 
+        <Button
           variant={activeTab === "opportunities" ? "default" : "outline"}
           onClick={() => setActiveTab("opportunities")}
           className="rounded-md"
@@ -90,7 +95,7 @@ export default function Insights() {
                 </CardTitle>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold">{kpi.value}</span>
-                  {typeof kpi.value === 'number' && (
+                  {typeof kpi.value === "number" && (
                     <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
                       +12% <span className="ml-1">↑</span>
                     </Badge>
@@ -107,7 +112,31 @@ export default function Insights() {
               </CardContent>
             </Card>
           ))}
-
+          {/* Audience Segmentation */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <LineChart className="h-5 w-5 text-blue-500" />
+                Audience Segmentation
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Data Availability:</span>
+                  <Badge
+                    variant="outline"
+                    className={
+                      audience_segmentation.data_availability === "Limited" ? "bg-yellow-50 text-yellow-700" : "bg-green-50 text-green-700"
+                    }
+                  >
+                    {audience_segmentation.data_availability}
+                  </Badge>
+                </div>
+                <p className="text-gray-700">{audience_segmentation.insight}</p>
+              </div>
+            </CardContent>
+          </Card>
           {/* Content Effectiveness */}
           <Card className="col-span-full md:col-span-2">
             <CardHeader>
@@ -138,27 +167,6 @@ export default function Insights() {
               </div>
             </CardContent>
           </Card>
-
-          {/* Audience Segmentation */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <LineChart className="h-5 w-5 text-blue-500" />
-                Audience Segmentation
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Data Availability:</span>
-                  <Badge variant="outline" className={audience_segmentation.data_availability === "Limited" ? "bg-yellow-50 text-yellow-700" : "bg-green-50 text-green-700"}>
-                    {audience_segmentation.data_availability}
-                  </Badge>
-                </div>
-                <p className="text-gray-700">{audience_segmentation.insight}</p>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       )}
 
@@ -171,7 +179,7 @@ export default function Insights() {
                 <BarChart2 className="h-5 w-5 text-purple-500" />
                 Key Performance Metrics
               </CardTitle>
-              <CardDescription>Visual representation of your content's performance</CardDescription>
+              <CardDescription>Visual representation of your content&apos;s performance</CardDescription>
             </CardHeader>
             <CardContent className="h-80">
               <ResponsiveContainer width="100%" height="100%">
@@ -244,7 +252,9 @@ export default function Insights() {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button variant="outline" className="w-full">Implement {opportunity.category}</Button>
+                <Button variant="outline" className="w-full">
+                  Implement {opportunity.category}
+                </Button>
               </CardFooter>
             </Card>
           ))}

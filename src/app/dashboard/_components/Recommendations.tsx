@@ -1,47 +1,27 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardFooter, CardTitle, CardDescription } from "@/components/ui/card"; // Assuming this is your card component
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 
-// Type for the data
-type RestaurantData = {
-  lead: string;
+// Updated type for the data
+type InfluencerData = {
   username: string;
-  followers: string;
-  userLink: string;
-  phones: string;
-  emails: string;
-  summary: string;
-  instagram_data: {
-    inputUrl: string;
-    id: string;
-    username: string;
-    url: string;
-    fullName: string;
-    biography: string;
-    externalUrls: string[];
-    followersCount: number;
-    followsCount: number;
-    hasChannel: boolean;
-    highlightReelCount: number;
-    isBusinessAccount: boolean;
-    joinedRecently: boolean;
-    businessCategoryName: string;
-    private: boolean;
-    verified: boolean;
-    profilePicUrl: string;
-    profilePicUrlHD: string;
-    igtvVideoCount: number;
-  };
+  profile_url: string;
+  profile_pic_url: string;
+  thumbnail_url?: string;
+  shortCode: string;
+  caption: string;
+  likesCount: number;
+  commentsCount: number;
+  url: string;
 };
 
 export default function Recommendations() {
-  const [data, setData] = useState<RestaurantData[]>([]);
+  const [data, setData] = useState<InfluencerData[]>([]);
 
-  // Load data from JSON file
   useEffect(() => {
     const loadData = async () => {
-      const response = await fetch("/combined_data.json");
+      const response = await fetch("/reels.json");
       const jsonData = await response.json();
       setData(jsonData);
     };
@@ -50,38 +30,52 @@ export default function Recommendations() {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {data.map((item, index) => (
-        <Card key={index} className="max-w-xs">
-          <CardHeader>
-            <CardTitle>{item.instagram_data?.fullName || "No Name Available"}</CardTitle>
-            <CardDescription>{item.instagram_data?.businessCategoryName || "No Category Available"}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col items-center">
+    <div className="pl-16 pr-12">
+      <p className="py-8 text-2xl font-bold pl-2">Trending Reels</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {data.map((item, index) => (
+          <Card key={index} className="max-w-sm border rounded-lg overflow-hidden shadow-lg">
+            {/* Header: Profile pic & username */}
+            <div className="flex items-center p-4">
               <Image
-                src={item.instagram_data?.profilePicUrl || "/default-profile-pic.jpg"} // Fallback if profile picture is missing
-                alt={item.instagram_data?.fullName || "Default Image"}
-                width={100}
-                height={100}
+                src={item.profile_pic_url || "/default-profile-pic.jpg"}
+                alt={item.username}
+                width={40}
+                height={40}
                 className="rounded-full"
               />
-              <p className="text-sm text-gray-600 mt-2">{item.instagram_data?.biography || "No biography available"}</p>
-              <p className="text-sm text-gray-500 mt-1">Followers: {item.instagram_data?.followersCount || "N/A"}</p>
-              <p className="text-sm text-gray-500 mt-1">Follows: {item.instagram_data?.followsCount || "N/A"}</p>
-              <p className="text-sm text-gray-500 mt-1">Business Account: {item.instagram_data?.isBusinessAccount ? "Yes" : "No"}</p>
-              <p className="text-sm text-gray-500 mt-1">Verified: {item.instagram_data?.verified ? "Yes" : "No"}</p>
-              <p className="text-sm text-gray-500 mt-1">Phone: {item.phones || "Not Available"}</p>
-              <p className="text-sm text-gray-500 mt-1">Email: {item.emails || "Not Available"}</p>
+              <a href={item.profile_url} target="_blank" rel="noopener noreferrer" className="ml-3 font-semibold hover:underline">
+                {item.username}
+              </a>
             </div>
-          </CardContent>
-          <CardFooter>
-            <a href={item.instagram_data?.url || "#"} className="text-primary hover:underline">
-              View Instagram
-            </a>
-          </CardFooter>
-        </Card>
-      ))}
+
+            {/* Thumbnail */}
+            <CardContent className="p-0">
+              <Image
+                src={item.thumbnail_url || "/thumbnail-placeholder.jpg"}
+                alt="Reel Thumbnail"
+                width={400}
+                height={400}
+                className="w-full h-80 object-cover"
+              />
+            </CardContent>
+
+            {/* Likes & Comments */}
+            <CardFooter className="flex flex-col items-start p-4">
+              <p className="text-sm font-semibold">❤️ {item.likesCount} Likes</p>
+              <p className="text-sm text-gray-500">💬 {item.commentsCount} Comments</p>
+              {/* Caption */}
+              <p className="text-sm text-gray-700 mt-2">
+                <span className="font-semibold">{item.username}</span> {item.caption || "No caption available"}
+              </p>
+              {/* Watch Reel Link */}
+              <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline mt-2">
+                Watch Reel
+              </a>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }
