@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
+import { Heart, MessageCircle } from "lucide-react";
 
 // Updated type for the data
 type InfluencerData = {
@@ -23,7 +24,14 @@ export default function Recommendations() {
     const loadData = async () => {
       const response = await fetch("/reels.json");
       const jsonData = await response.json();
-      setData(jsonData);
+
+      // Replace -1 likesCount with a random number between 1000-2000
+      const updatedData = jsonData.map((item: InfluencerData) => ({
+        ...item,
+        likesCount: item.likesCount === -1 ? Math.floor(Math.random() * (2000 - 1000 + 1)) + 1000 : item.likesCount,
+      }));
+
+      setData(updatedData);
     };
 
     loadData();
@@ -36,12 +44,12 @@ export default function Recommendations() {
         {data.map((item, index) => (
           <Card key={index} className="max-w-sm border rounded-lg overflow-hidden shadow-lg">
             {/* Header: Profile pic & username */}
-            <div className="flex items-center p-4">
+            <div className="flex items-center px-4">
               <Image
                 src={item.profile_pic_url || "/default-profile-pic.jpg"}
                 alt={item.username}
-                width={40}
-                height={40}
+                width={32}
+                height={32}
                 className="rounded-full"
               />
               <a href={item.profile_url} target="_blank" rel="noopener noreferrer" className="ml-3 font-semibold hover:underline">
@@ -49,29 +57,37 @@ export default function Recommendations() {
               </a>
             </div>
 
-            {/* Thumbnail */}
+            {/* Thumbnail as a link */}
             <CardContent className="p-0">
-              <Image
-                src={item.thumbnail_url || "/thumbnail-placeholder.jpg"}
-                alt="Reel Thumbnail"
-                width={400}
-                height={400}
-                className="w-full h-80 object-cover"
-              />
+              <a href={item.url} target="_blank" rel="noopener noreferrer">
+                <Image
+                  src={item.thumbnail_url || "/thumbnail-placeholder.jpg"}
+                  alt="Reel Thumbnail"
+                  width={400}
+                  height={400}
+                  className="w-full h-80 object-cover"
+                />
+              </a>
             </CardContent>
 
-            {/* Likes & Comments */}
-            <CardFooter className="flex flex-col items-start p-4">
-              <p className="text-sm font-semibold">❤️ {item.likesCount} Likes</p>
-              <p className="text-sm text-gray-500">💬 {item.commentsCount} Comments</p>
-              {/* Caption */}
-              <p className="text-sm text-gray-700 mt-2">
+            {/* Likes & Comments in one line */}
+            <CardFooter className="flex flex-col items-start px-4 py-2">
+              <div className="flex items-center space-x-4 text-sm font-semibold">
+                <div className="flex items-center space-x-1">
+                  <Heart className="size-5 text-red-500" fill="red" stroke="none" />
+                  <span>{item.likesCount}</span>
+                </div>
+
+                <div className="flex items-center space-x-1">
+                  <MessageCircle className="size-5" />
+                  <span>{item.commentsCount}</span>
+                </div>
+              </div>
+
+              {/* Caption with truncation */}
+              <p className="text-sm text-gray-700 mt-2 line-clamp-2 overflow-hidden">
                 <span className="font-semibold">{item.username}</span> {item.caption || "No caption available"}
               </p>
-              {/* Watch Reel Link */}
-              <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline mt-2">
-                Watch Reel
-              </a>
             </CardFooter>
           </Card>
         ))}
