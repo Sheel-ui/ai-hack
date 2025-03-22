@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
-import { TrendingUp, Users, Hash, Instagram, Star, ExternalLink, ArrowUpRight, Eye, ThumbsUp, MessageSquare } from "lucide-react";
+import { TrendingUp, Users, Hash, Instagram, Star, ExternalLink, ArrowUpRight, Eye, ThumbsUp, MessageSquare, FileText, Download } from "lucide-react";
 
 // Define types for our data structures
 type EngagementMetric = {
@@ -27,6 +27,7 @@ type EngagementMetricsData = {
 export default function Analytics() {
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [generatingReport, setGeneratingReport] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [featuredPost, setFeaturedPost] = useState<any>(null);
 
@@ -175,6 +176,202 @@ export default function Analytics() {
   };
 
   // Calculate engagement metrics
+  // Generate a downloadable PDF report
+  const generateReport = async () => {
+    setGeneratingReport(true);
+    
+    try {
+      // Create a virtual canvas for the report
+      const reportContainer = document.createElement('div');
+      reportContainer.className = 'report-container';
+      reportContainer.style.width = '800px';
+      reportContainer.style.padding = '40px';
+      reportContainer.style.backgroundColor = '#ffffff'; // Use hex instead of 'white'
+      reportContainer.style.fontFamily = 'Arial, sans-serif';
+      
+      // Add report header
+      const header = document.createElement('div');
+      header.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+          <div>
+            <h1 style="font-size: 24px; color: #333; margin: 0;">Instagram Analytics Report</h1>
+            <p style="color: #666; margin: 5px 0 0;">Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+          </div>
+          <div style="font-size: 32px; font-weight: bold; color: #8884d8;">TrendBit</div>
+        </div>
+        <hr style="border: 1px solid #eee; margin: 20px 0;" />
+      `;
+      reportContainer.appendChild(header);
+      
+      // Add account overview section
+      const accountOverview = document.createElement('div');
+      accountOverview.innerHTML = `
+        <h2 style="font-size: 20px; color: #333; margin-bottom: 15px;">Account Overview</h2>
+        <div style="display: flex; gap: 20px; margin-bottom: 30px;">
+          <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+            <h3 style="font-size: 16px; margin: 0 0 10px; color: #555;">Total Followers</h3>
+            <p style="font-size: 24px; font-weight: bold; margin: 0; color: #333;">${engagementMetrics.raw.find(m => m.name === 'Followers')?.value.toLocaleString() || 'N/A'}</p>
+          </div>
+          <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+            <h3 style="font-size: 16px; margin: 0 0 10px; color: #555;">Total Posts</h3>
+            <p style="font-size: 24px; font-weight: bold; margin: 0; color: #333;">${engagementMetrics.raw.find(m => m.name === 'Posts')?.value.toLocaleString() || 'N/A'}</p>
+          </div>
+          <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+            <h3 style="font-size: 16px; margin: 0 0 10px; color: #555;">Total Views</h3>
+            <p style="font-size: 24px; font-weight: bold; margin: 0; color: #333;">${engagementMetrics.views[0].value.toLocaleString()}</p>
+          </div>
+        </div>
+      `;
+      reportContainer.appendChild(accountOverview);
+      
+      // Add content breakdown section
+      const contentBreakdown = document.createElement('div');
+      contentBreakdown.innerHTML = `
+        <h2 style="font-size: 20px; color: #333; margin-bottom: 15px;">Content Type Breakdown</h2>
+        <p style="color: #666; margin-bottom: 20px;">Distribution of views across different content formats</p>
+        <div style="margin-bottom: 20px;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background-color: #f1f3f5;">
+                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Content Type</th>
+                <th style="padding: 12px; text-align: right; border-bottom: 1px solid #ddd;">Percentage</th>
+                <th style="padding: 12px; text-align: right; border-bottom: 1px solid #ddd;">Views</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${engagementMetrics.contentTypeBreakdown.map(item => `
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                    <div style="display: flex; align-items: center;">
+                      <div style="width: 12px; height: 12px; border-radius: 50%; background-color: ${item.color || '#cccccc'}; margin-right: 8px;"></div>
+                      ${item.name}
+                    </div>
+                  </td>
+                  <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">${item.value.toFixed(1)}%</td>
+                  <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">${item.originalValue.toLocaleString()}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+      reportContainer.appendChild(contentBreakdown);
+      
+      // Add engagement rates section
+      const engagementRatesSection = document.createElement('div');
+      engagementRatesSection.innerHTML = `
+        <h2 style="font-size: 20px; color: #333; margin-bottom: 15px;">Engagement Rates</h2>
+        <p style="color: #666; margin-bottom: 20px;">Engagement rates by content type</p>
+        <div style="margin-bottom: 20px;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background-color: #f1f3f5;">
+                <th style="padding: 12px; text-align: left; border-bottom: 1px solid #ddd;">Content Type</th>
+                <th style="padding: 12px; text-align: right; border-bottom: 1px solid #ddd;">Engagement Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${engagementMetrics.engagementRates.map(item => `
+                <tr>
+                  <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                    <div style="display: flex; align-items: center;">
+                      <div style="width: 12px; height: 12px; border-radius: 50%; background-color: ${item.color || '#cccccc'}; margin-right: 8px;"></div>
+                      ${item.name}
+                    </div>
+                  </td>
+                  <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">${item.value.toFixed(1)}%</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+      reportContainer.appendChild(engagementRatesSection);
+      
+      // Add recommendations section
+      const recommendationsSection = document.createElement('div');
+      recommendationsSection.innerHTML = `
+        <h2 style="font-size: 20px; color: #333; margin-bottom: 15px;">Recommendations</h2>
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+          <ul style="margin: 0; padding-left: 20px;">
+            <li style="margin-bottom: 10px;">Focus on creating more Reels content as it shows the highest engagement rate</li>
+            <li style="margin-bottom: 10px;">Experiment with Carousel Posts which have shown strong engagement</li>
+            <li style="margin-bottom: 10px;">Consider reducing investment in content types with lower engagement rates</li>
+            <li style="margin-bottom: 10px;">Post consistently during peak hours (10am-1pm and 7pm-9pm) for maximum reach</li>
+            <li style="margin-bottom: 10px;">Engage with comments within the first hour of posting to boost algorithm visibility</li>
+          </ul>
+        </div>
+      `;
+      reportContainer.appendChild(recommendationsSection);
+      
+      // Add footer
+      const footer = document.createElement('div');
+      footer.innerHTML = `
+        <hr style="border: 1px solid #eee; margin: 20px 0;" />
+        <div style="display: flex; justify-content: space-between; color: #999; font-size: 12px;">
+          <div>Generated by TrendBit Analytics</div>
+          <div>Page 1 of 1</div>
+        </div>
+      `;
+      reportContainer.appendChild(footer);
+      
+      // Append to document temporarily (invisible)
+      document.body.appendChild(reportContainer);
+      reportContainer.style.position = 'absolute';
+      reportContainer.style.left = '-9999px';
+      
+      // Use html2canvas and jsPDF to generate PDF
+      const { default: html2canvas } = await import('html2canvas');
+      const { default: jsPDF } = await import('jspdf');
+      
+      // Convert all oklch colors to hex before rendering
+      const allElements = reportContainer.querySelectorAll('*');
+      allElements.forEach(el => {
+        const element = el as HTMLElement;
+        const computedStyle = window.getComputedStyle(element);
+        
+        // Replace any background colors
+        if (computedStyle.backgroundColor && computedStyle.backgroundColor.includes('oklch')) {
+          element.style.backgroundColor = '#f8f9fa'; // Fallback light gray
+        }
+        
+        // Replace any text colors
+        if (computedStyle.color && computedStyle.color.includes('oklch')) {
+          element.style.color = '#333333'; // Fallback dark gray
+        }
+        
+        // Replace any border colors
+        if (computedStyle.borderColor && computedStyle.borderColor.includes('oklch')) {
+          element.style.borderColor = '#dddddd'; // Fallback light gray
+        }
+      });
+      
+      const canvas = await html2canvas(reportContainer, {
+        scale: 1,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, (canvas.height * pdfWidth) / canvas.width);
+      pdf.save('instagram-analytics-report.pdf');
+      
+      // Clean up
+      document.body.removeChild(reportContainer);
+      
+    } catch (error) {
+      console.error('Error generating report:', error);
+      alert('Failed to generate report. Please try again.');
+    } finally {
+      setGeneratingReport(false);
+    }
+  };
+
   const calculateEngagementMetrics = (): EngagementMetricsData => {
     if (!data || data.length === 0) return {
       standardized: [],
@@ -457,8 +654,21 @@ export default function Analytics() {
             <h1 className="text-3xl font-bold text-gray-800">Instagram Analytics</h1>
             <p className="text-gray-600 mt-1">Insights and trends from your industry competitors</p>
           </div>
-          <Button className="flex items-center gap-2">
-            Export Report <ArrowUpRight className="h-4 w-4" />
+          <Button 
+            className="flex items-center gap-2" 
+            onClick={generateReport}
+            disabled={generatingReport}>
+            {generatingReport ? (
+              <>
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-blue-600"></div>
+                Generating...
+              </>
+            ) : (
+              <>
+                <FileText className="h-4 w-4" />
+                Generate Report
+              </>
+            )}
           </Button>
         </div>
 
