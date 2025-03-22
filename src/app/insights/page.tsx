@@ -1,15 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import insightData from "./data/insight.json";
 import { ArrowUpRight, Lightbulb, TrendingUp, MessageSquare, Eye, Play, Target, LineChart, BarChart2 } from "lucide-react";
 
 export default function Insights() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [insightData, setInsightData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchInsights = async () => {
+      try {
+        const response = await fetch("/insight.json");
+        if (!response.ok) {
+          throw new Error("Failed to fetch insights data");
+        }
+        const data = await response.json();
+        setInsightData(data);
+      } catch (err) {
+        console.error("Error fetching insights:", err);
+        setError(err instanceof Error ? err.message : "An unknown error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInsights();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
+        <div className="text-xl text-gray-600">Loading insights data...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
+        <div className="text-xl text-red-500">Error: {error}</div>
+      </div>
+    );
+  }
+
+  if (!insightData || !insightData.reel_analysis) {
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
+        <div className="text-xl text-gray-600">No insights data available</div>
+      </div>
+    );
+  }
+
   const { reel_analysis } = insightData;
   const { key_performance_indicators, content_effectiveness, audience_segmentation, opportunities_for_improvement } = reel_analysis;
 
