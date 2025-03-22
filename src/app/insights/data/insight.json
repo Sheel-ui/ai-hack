@@ -1,0 +1,78 @@
+{
+    "reel_analysis": {
+      "overall_summary": "Good engagement potential with high 'recipe' interest, suggesting untapped potential for lead generation and brand authority.",
+      "key_performance_indicators": [
+        {
+          "metric": "Likes",
+          "value": 274,
+          "insight": "Direct measure of content enjoyment. Could be improved by optimizing for emotional connection or higher perceived value."
+        },
+        {
+          "metric": "Comments",
+          "value": 24,
+          "insight": "Active participation indicates engagement. Analyze common themes or questions to guide future content."
+        },
+        {
+          "metric": "Video Views",
+          "value": 2336,
+          "insight": "Reach of the reel. Optimize for discoverability through relevant hashtags and engaging visuals."
+        },
+        {
+          "metric": "Video Play Count",
+          "value": 7583,
+          "insight": "Multiple watches suggest viewers are really interested in the content.",
+          "suggestion": "Try to better the reel's engagement."
+        },
+        {
+          "metric": "Dominant Comment",
+          "value": "\"Recipe\" requests",
+          "insight": "Strong demand for recipe information.  A recipe for this dish would attract more traffic.",
+          "suggestion": "Offer recipe guide on social media"
+        }
+      ],
+      "content_effectiveness": {
+        "dominant_comment": "\"Recipe\" requests",
+        "insight": "High demand for recipe information, indicating interest in replicating the dish at home.",
+        "action_items": [
+          "Create a quick and easy recipe guide.",
+          "Promote guide in subsequent Reels to encourage home cooking."
+        ]
+      },
+      "audience_segmentation": {
+        "data_availability": "Limited",
+        "insight": "Insufficient data for deep audience segmentation. Focus on broader demographic assumptions based on food preferences (e.g., Italian food lovers, home cooks)."
+      },
+      "opportunities_for_improvement": [
+        {
+          "category": "Engagement Optimization",
+          "points": [
+            "Add a direct question to the caption to prompt comments.",
+            "Ensure the reel grabs attention within the first 2-3 seconds (hook).",
+            "Experiment with shorter, more concise edits."
+          ]
+        },
+        {
+          "category": "Lead Generation",
+          "points": [
+            "Redirect recipe requests to a landing page with an email opt-in.",
+            "Offer a discount or promotional code alongside recipe access to drive immediate sales and track attribution.",
+            "Implement a CRM so that leads can be tracked and nurtured."
+          ]
+        },
+        {
+          "category": "Content Variety & Testing",
+          "points": [
+            "Experiment with different video styles (ASMR, quick tutorials, humorous takes, etc.).",
+            "Test alternative pasta types, sauces, and ingredient combinations.",
+            "Track performance to identify winning combinations."
+          ]
+        }
+      ],
+      "dashboard_integration": {
+        "kpi_tracking": "Set up dashboards to monitor these metrics weekly/monthly, noting trends or significant shifts.",
+        "content_calendar": "Use insights to shape the content calendar, prioritizing recipes and content themes that resonate with the audience.",
+        "a_b_testing": "Use insights to inform A/B tests of captions, visuals, and calls to action.",
+        "feedback_loop": "Actively solicit viewer feedback and incorporate it into future reel content."
+      }
+    }
+  }

@@ -1,0 +1,819 @@
+{
+  "engagement_metrics": {
+    "total_content": 9,
+    "total_videos": 9,
+    "total_likes": 17073,
+    "total_comments": 363,
+    "total_views": 509562,
+    "total_plays": 1140447,
+    "avg_likes_per_content": 1897.0,
+    "avg_comments_per_content": 40.333333333333336,
+    "avg_views_per_video": 56618.0,
+    "avg_plays_per_video": 126716.33333333333,
+    "video_completion_rate": 0.4468090143601588,
+    "engagement_rate": 1937.3333333333333
+  },
+  "content_performance": [
+    {
+      "id": "3592725198509955395",
+      "shortCode": "DHb7Ihwx9lD",
+      "type": "Video",
+      "caption": "When it comes to dinner reservations, Top Chef host Kristen Kish is firmly in the 5 pm camp. Are you an early bird or a night owl?\n\nVideo: @sylvz",
+      "url": "https://www.instagram.com/p/DHb7Ihwx9lD/",
+      "timestamp": "2025-03-20T21:31:39.000Z",
+      "likes": 7182,
+      "comments": 129,
+      "views": 342057,
+      "plays": 669939,
+      "completion_rate": 0.5105793214009037,
+      "total_engagement": 7311,
+      "duration": 111.082
+    },
+    {
+      "id": "3593423152840447645",
+      "shortCode": "DHeZ1GYuBad",
+      "type": "Video",
+      "caption": "If your weekend plans include a bottle of tequila, you may want to take notes \ud83d\udcdd\ud83d\ude09. Get more tequila tips at the link in bio. \n\n\ud83c\udfa5: @heddyhunt, @bigbagoforanges \n\n#tequilabottle #tequilalover #distilleries",
+      "url": "https://www.instagram.com/p/DHeZ1GYuBad/",
+      "timestamp": "2025-03-21T20:37:48.000Z",
+      "likes": 3114,
+      "comments": 32,
+      "views": 52497,
+      "plays": 124147,
+      "completion_rate": 0.4228616076103329,
+      "total_engagement": 3146,
+      "duration": 33.633
+    },
+    {
+      "id": "3594069159718343228",
+      "shortCode": "DHgstvLMtI8",
+      "type": "Video",
+      "caption": "This Chive Oil by @kimberlyzett is delicious with fresh bread, or used to elevate any meal \ud83d\udc9a\n\nComment \u2018recipe\u2019 to have the details sent to your DMs and keep tagging #feedfeed for a chance to be featured.\n\nWHAT YOU NEED:\n60g chives\n400ml oil of choice\n\nhttps://thezett.com/chive-oil/\n\n#howto #spring #recipe",
+      "url": "https://www.instagram.com/p/DHgstvLMtI8/",
+      "timestamp": "2025-03-22T18:00:00.000Z",
+      "likes": 1962,
+      "comments": 89,
+      "views": 32859,
+      "plays": 94823,
+      "completion_rate": 0.3465298503527625,
+      "total_engagement": 2051,
+      "duration": 20.942
+    },
+    {
+      "id": "3499907650555583639",
+      "shortCode": "DCSK3cCCZyX",
+      "type": "Video",
+      "caption": "Visiting one of my favorite Taquerias, @lataqueriasf \u2600\ufe0f\n\n\ud83d\udccd2889 Mission St. San Francisco, CA 94110\n\nAn absolute MUST when in SF or surrounding areas \ud83e\udd70 what I ordered:\n\n\u2022 Super tacos de Asada and Carnitas \n\u2022 Asada burrito \n\u2022 Beer \ud83d\ude09\n\n#food#sanfrancisco#tacos#bayareafood#sanfranciscofood#lataqueria",
+      "url": "https://www.instagram.com/p/DCSK3cCCZyX/",
+      "timestamp": "2024-11-12T20:00:19.000Z",
+      "likes": 1873,
+      "comments": 61,
+      "views": 12709,
+      "plays": 35748,
+      "completion_rate": 0.35551639252545597,
+      "total_engagement": 1934,
+      "duration": 50.4
+    },
+    {
+      "id": "3593495357172678887",
+      "shortCode": "DHeqPz6SwDn",
+      "type": "Video",
+      "caption": "What if I told you that the best Texas BBQ is in Japan? \ud83e\udd69\ud83d\udd25\n\n\ud83d\udccd @slice_of_life_bbq, Tokyo, Japan\n\n#tokyofood #japanfood #texasbbq",
+      "url": "https://www.instagram.com/p/DHeqPz6SwDn/",
+      "timestamp": "2025-03-21T23:00:00.000Z",
+      "likes": 1020,
+      "comments": 18,
+      "views": 18672,
+      "plays": 64763,
+      "completion_rate": 0.2883127711810756,
+      "total_engagement": 1038,
+      "duration": 30.333
+    },
+    {
+      "id": "3594099534398197633",
+      "shortCode": "DHgznvzM4-B",
+      "type": "Video",
+      "caption": "garlic girlie inside and out just like this 50-Garlic Clove Beef Bulgogi Onigiri. You can find the recipe linked in our bio! @joelleolol",
+      "url": "https://www.instagram.com/p/DHgznvzM4-B/",
+      "timestamp": "2025-03-22T20:00:23.000Z",
+      "likes": 716,
+      "comments": 4,
+      "views": 28784,
+      "plays": 88708,
+      "completion_rate": 0.32448031744600264,
+      "total_engagement": 720,
+      "duration": 38.464
+    },
+    {
+      "id": "3593994113282008173",
+      "shortCode": "DHgbpqvBORt",
+      "type": "Video",
+      "caption": "Don\u2019t skip on the pasta at this Michelin-starred steakhouse. \ud83c\udf5d\n\nChef-owner Curtis Stone (@curtisstone) and his team at Gwen (@gwenla) in LA makes fresh pasta every morning to prepare for a packed evening of hungry dinner guests. After mixing eggs, flour, salt, and olive oil combined with some muscle power, Stone transforms these simple ingredients into an elevated pappardelle pasta. The in-house made noodles are served with a creamy sauce, topped with fresh black truffles, shaved tableside. \n\nTap the link in bio to watch how Gwen, the restaurant and butcher shop, serves up premium cuts like rib-eye and pork chops.",
+      "url": "https://www.instagram.com/p/DHgbpqvBORt/",
+      "timestamp": "2025-03-22T16:01:01.000Z",
+      "likes": 591,
+      "comments": 3,
+      "views": 12841,
+      "plays": 32537,
+      "completion_rate": 0.39465838891108584,
+      "total_engagement": 594,
+      "duration": 85.803
+    },
+    {
+      "id": "3594128390808314845",
+      "shortCode": "DHg6LqbRqPd",
+      "type": "Video",
+      "caption": "You'll love @kardeabrown's take on her grandma's banana pudding \u2014 there's a drizzle of salted caramel! \ud83c\udf4c\ud83d\ude0b\n\nDon't miss an all-new #SpringBakingChampionship with Kardea, Monday @ 8|7c!\n\nGet the recipe at the link in our bio.",
+      "url": "https://www.instagram.com/p/DHg6LqbRqPd/",
+      "timestamp": "2025-03-22T19:59:04.000Z",
+      "likes": 339,
+      "comments": 3,
+      "views": 6794,
+      "plays": 22153,
+      "completion_rate": 0.3066853247867106,
+      "total_engagement": 342,
+      "duration": 112.291
+    },
+    {
+      "id": "3593978197318893412",
+      "shortCode": "DHgYCD1sP9k",
+      "type": "Video",
+      "caption": "Craving something creamy, comforting and FULL of flavour? \ud83e\udd24\nThis Italian Sausage Pasta with Mushrooms is ready in just 10 minutes \u2013 and it\u2019s bursting with garlic, golden mushrooms, and a velvety pecorino butter sauce that hugs every strand of tagliatelle. \ud83c\udf5d\n\nIt\u2019s rich, it\u2019s bold, and it might just become your new weeknight favourite.\n\n\ud83d\udcac Comment \u201crecipe\u201d and I\u2019ll send you the full recipe straight to your DMs!\n\n#VincenzosPlate #ItalianPasta #SausagePasta #WeeknightDinner #EasyPastaRecipe #PastaLovers",
+      "url": "https://www.instagram.com/p/DHgYCD1sP9k/",
+      "timestamp": "2025-03-22T15:00:00.000Z",
+      "likes": 276,
+      "comments": 24,
+      "views": 2349,
+      "plays": 7629,
+      "completion_rate": 0.3079040503342509,
+      "total_engagement": 300,
+      "duration": 88.652
+    }
+  ],
+  "hashtag_analysis": {
+    "total_hashtags_used": 23,
+    "unique_hashtags": 23,
+    "top_hashtags": [
+      [
+        "food",
+        1
+      ],
+      [
+        "sanfrancisco",
+        1
+      ],
+      [
+        "tacos",
+        1
+      ],
+      [
+        "bayareafood",
+        1
+      ],
+      [
+        "sanfranciscofood",
+        1
+      ],
+      [
+        "lataqueria",
+        1
+      ],
+      [
+        "VincenzosPlate",
+        1
+      ],
+      [
+        "ItalianPasta",
+        1
+      ],
+      [
+        "SausagePasta",
+        1
+      ],
+      [
+        "WeeknightDinner",
+        1
+      ]
+    ],
+    "top_engaging_hashtags": [
+      [
+        "tequilabottle",
+        3146.0
+      ],
+      [
+        "tequilalover",
+        3146.0
+      ],
+      [
+        "distilleries",
+        3146.0
+      ],
+      [
+        "feedfeed",
+        2051.0
+      ],
+      [
+        "howto",
+        2051.0
+      ],
+      [
+        "spring",
+        2051.0
+      ],
+      [
+        "recipe",
+        2051.0
+      ],
+      [
+        "food",
+        1934.0
+      ],
+      [
+        "sanfrancisco",
+        1934.0
+      ],
+      [
+        "tacos",
+        1934.0
+      ]
+    ],
+    "hashtag_details": {
+      "food": {
+        "count": 1,
+        "total_engagement": 1934,
+        "content_ids": [
+          "3499907650555583639"
+        ],
+        "avg_engagement": 1934.0
+      },
+      "sanfrancisco": {
+        "count": 1,
+        "total_engagement": 1934,
+        "content_ids": [
+          "3499907650555583639"
+        ],
+        "avg_engagement": 1934.0
+      },
+      "tacos": {
+        "count": 1,
+        "total_engagement": 1934,
+        "content_ids": [
+          "3499907650555583639"
+        ],
+        "avg_engagement": 1934.0
+      },
+      "bayareafood": {
+        "count": 1,
+        "total_engagement": 1934,
+        "content_ids": [
+          "3499907650555583639"
+        ],
+        "avg_engagement": 1934.0
+      },
+      "sanfranciscofood": {
+        "count": 1,
+        "total_engagement": 1934,
+        "content_ids": [
+          "3499907650555583639"
+        ],
+        "avg_engagement": 1934.0
+      },
+      "lataqueria": {
+        "count": 1,
+        "total_engagement": 1934,
+        "content_ids": [
+          "3499907650555583639"
+        ],
+        "avg_engagement": 1934.0
+      },
+      "VincenzosPlate": {
+        "count": 1,
+        "total_engagement": 300,
+        "content_ids": [
+          "3593978197318893412"
+        ],
+        "avg_engagement": 300.0
+      },
+      "ItalianPasta": {
+        "count": 1,
+        "total_engagement": 300,
+        "content_ids": [
+          "3593978197318893412"
+        ],
+        "avg_engagement": 300.0
+      },
+      "SausagePasta": {
+        "count": 1,
+        "total_engagement": 300,
+        "content_ids": [
+          "3593978197318893412"
+        ],
+        "avg_engagement": 300.0
+      },
+      "WeeknightDinner": {
+        "count": 1,
+        "total_engagement": 300,
+        "content_ids": [
+          "3593978197318893412"
+        ],
+        "avg_engagement": 300.0
+      },
+      "EasyPastaRecipe": {
+        "count": 1,
+        "total_engagement": 300,
+        "content_ids": [
+          "3593978197318893412"
+        ],
+        "avg_engagement": 300.0
+      },
+      "PastaLovers": {
+        "count": 1,
+        "total_engagement": 300,
+        "content_ids": [
+          "3593978197318893412"
+        ],
+        "avg_engagement": 300.0
+      },
+      "tequilabottle": {
+        "count": 1,
+        "total_engagement": 3146,
+        "content_ids": [
+          "3593423152840447645"
+        ],
+        "avg_engagement": 3146.0
+      },
+      "tequilalover": {
+        "count": 1,
+        "total_engagement": 3146,
+        "content_ids": [
+          "3593423152840447645"
+        ],
+        "avg_engagement": 3146.0
+      },
+      "distilleries": {
+        "count": 1,
+        "total_engagement": 3146,
+        "content_ids": [
+          "3593423152840447645"
+        ],
+        "avg_engagement": 3146.0
+      },
+      "feedfeed": {
+        "count": 1,
+        "total_engagement": 2051,
+        "content_ids": [
+          "3594069159718343228"
+        ],
+        "avg_engagement": 2051.0
+      },
+      "howto": {
+        "count": 1,
+        "total_engagement": 2051,
+        "content_ids": [
+          "3594069159718343228"
+        ],
+        "avg_engagement": 2051.0
+      },
+      "spring": {
+        "count": 1,
+        "total_engagement": 2051,
+        "content_ids": [
+          "3594069159718343228"
+        ],
+        "avg_engagement": 2051.0
+      },
+      "recipe": {
+        "count": 1,
+        "total_engagement": 2051,
+        "content_ids": [
+          "3594069159718343228"
+        ],
+        "avg_engagement": 2051.0
+      },
+      "SpringBakingChampionship": {
+        "count": 1,
+        "total_engagement": 342,
+        "content_ids": [
+          "3594128390808314845"
+        ],
+        "avg_engagement": 342.0
+      },
+      "tokyofood": {
+        "count": 1,
+        "total_engagement": 1038,
+        "content_ids": [
+          "3593495357172678887"
+        ],
+        "avg_engagement": 1038.0
+      },
+      "japanfood": {
+        "count": 1,
+        "total_engagement": 1038,
+        "content_ids": [
+          "3593495357172678887"
+        ],
+        "avg_engagement": 1038.0
+      },
+      "texasbbq": {
+        "count": 1,
+        "total_engagement": 1038,
+        "content_ids": [
+          "3593495357172678887"
+        ],
+        "avg_engagement": 1038.0
+      }
+    }
+  },
+  "mention_analysis": {
+    "total_mentions": 10,
+    "unique_mentions": 10,
+    "top_mentions": [
+      [
+        "lataqueriasf",
+        1
+      ],
+      [
+        "heddyhunt,",
+        1
+      ],
+      [
+        "bigbagoforanges",
+        1
+      ],
+      [
+        "sylvz",
+        1
+      ],
+      [
+        "joelleolol",
+        1
+      ],
+      [
+        "kimberlyzett",
+        1
+      ],
+      [
+        "kardeabrown's",
+        1
+      ],
+      [
+        "slice_of_life_bbq,",
+        1
+      ],
+      [
+        "curtisstone",
+        1
+      ],
+      [
+        "gwenla",
+        1
+      ]
+    ],
+    "top_engaging_mentions": [
+      [
+        "sylvz",
+        7311.0
+      ],
+      [
+        "heddyhunt,",
+        3146.0
+      ],
+      [
+        "bigbagoforanges",
+        3146.0
+      ],
+      [
+        "kimberlyzett",
+        2051.0
+      ],
+      [
+        "lataqueriasf",
+        1934.0
+      ],
+      [
+        "slice_of_life_bbq,",
+        1038.0
+      ],
+      [
+        "joelleolol",
+        720.0
+      ],
+      [
+        "curtisstone",
+        594.0
+      ],
+      [
+        "gwenla",
+        594.0
+      ],
+      [
+        "kardeabrown's",
+        342.0
+      ]
+    ],
+    "mention_details": {
+      "lataqueriasf": {
+        "count": 1,
+        "total_engagement": 1934,
+        "content_ids": [
+          "3499907650555583639"
+        ],
+        "avg_engagement": 1934.0
+      },
+      "heddyhunt,": {
+        "count": 1,
+        "total_engagement": 3146,
+        "content_ids": [
+          "3593423152840447645"
+        ],
+        "avg_engagement": 3146.0
+      },
+      "bigbagoforanges": {
+        "count": 1,
+        "total_engagement": 3146,
+        "content_ids": [
+          "3593423152840447645"
+        ],
+        "avg_engagement": 3146.0
+      },
+      "sylvz": {
+        "count": 1,
+        "total_engagement": 7311,
+        "content_ids": [
+          "3592725198509955395"
+        ],
+        "avg_engagement": 7311.0
+      },
+      "joelleolol": {
+        "count": 1,
+        "total_engagement": 720,
+        "content_ids": [
+          "3594099534398197633"
+        ],
+        "avg_engagement": 720.0
+      },
+      "kimberlyzett": {
+        "count": 1,
+        "total_engagement": 2051,
+        "content_ids": [
+          "3594069159718343228"
+        ],
+        "avg_engagement": 2051.0
+      },
+      "kardeabrown's": {
+        "count": 1,
+        "total_engagement": 342,
+        "content_ids": [
+          "3594128390808314845"
+        ],
+        "avg_engagement": 342.0
+      },
+      "slice_of_life_bbq,": {
+        "count": 1,
+        "total_engagement": 1038,
+        "content_ids": [
+          "3593495357172678887"
+        ],
+        "avg_engagement": 1038.0
+      },
+      "curtisstone": {
+        "count": 1,
+        "total_engagement": 594,
+        "content_ids": [
+          "3593994113282008173"
+        ],
+        "avg_engagement": 594.0
+      },
+      "gwenla": {
+        "count": 1,
+        "total_engagement": 594,
+        "content_ids": [
+          "3593994113282008173"
+        ],
+        "avg_engagement": 594.0
+      }
+    }
+  },
+  "posting_time_analysis": {
+    "best_posting_hours": [
+      [
+        21,
+        7311.0
+      ],
+      [
+        18,
+        2051.0
+      ],
+      [
+        20,
+        1933.3333333333333
+      ],
+      [
+        23,
+        1038.0
+      ],
+      [
+        16,
+        594.0
+      ],
+      [
+        19,
+        342.0
+      ],
+      [
+        15,
+        300.0
+      ]
+    ],
+    "best_posting_weekdays": [
+      [
+        "Thursday",
+        7311.0
+      ],
+      [
+        "Friday",
+        2092.0
+      ],
+      [
+        "Tuesday",
+        1934.0
+      ],
+      [
+        "Saturday",
+        801.4
+      ]
+    ],
+    "hour_details": {
+      "20": {
+        "count": 3,
+        "total_engagement": 5800,
+        "avg_engagement": 1933.3333333333333
+      },
+      "15": {
+        "count": 1,
+        "total_engagement": 300,
+        "avg_engagement": 300.0
+      },
+      "21": {
+        "count": 1,
+        "total_engagement": 7311,
+        "avg_engagement": 7311.0
+      },
+      "18": {
+        "count": 1,
+        "total_engagement": 2051,
+        "avg_engagement": 2051.0
+      },
+      "19": {
+        "count": 1,
+        "total_engagement": 342,
+        "avg_engagement": 342.0
+      },
+      "23": {
+        "count": 1,
+        "total_engagement": 1038,
+        "avg_engagement": 1038.0
+      },
+      "16": {
+        "count": 1,
+        "total_engagement": 594,
+        "avg_engagement": 594.0
+      }
+    },
+    "weekday_details": {
+      "Tuesday": {
+        "count": 1,
+        "total_engagement": 1934,
+        "avg_engagement": 1934.0
+      },
+      "Saturday": {
+        "count": 5,
+        "total_engagement": 4007,
+        "avg_engagement": 801.4
+      },
+      "Friday": {
+        "count": 2,
+        "total_engagement": 4184,
+        "avg_engagement": 2092.0
+      },
+      "Thursday": {
+        "count": 1,
+        "total_engagement": 7311,
+        "avg_engagement": 7311.0
+      }
+    }
+  },
+  "content_insights": {
+    "caption_length_analysis": {
+      "ranges": {
+        "short (0-50)": {
+          "count": 0,
+          "total_engagement": 0,
+          "avg_engagement": 0
+        },
+        "medium (51-150)": {
+          "count": 3,
+          "total_engagement": 9069,
+          "avg_engagement": 3023.0
+        },
+        "long (151+)": {
+          "count": 6,
+          "total_engagement": 8367,
+          "avg_engagement": 1394.5
+        }
+      },
+      "best_performing_length": "medium (51-150)"
+    },
+    "video_duration_analysis": {
+      "ranges": {
+        "short (0-30s)": {
+          "count": 1,
+          "total_engagement": 2051,
+          "total_views": 32859,
+          "avg_engagement": 2051.0,
+          "avg_views": 32859.0
+        },
+        "medium (31-60s)": {
+          "count": 4,
+          "total_engagement": 6838,
+          "total_views": 112662,
+          "avg_engagement": 1709.5,
+          "avg_views": 28165.5
+        },
+        "long (61s+)": {
+          "count": 4,
+          "total_engagement": 8547,
+          "total_views": 364041,
+          "avg_engagement": 2136.75,
+          "avg_views": 91010.25
+        }
+      },
+      "best_performing_duration": "long (61s+)"
+    }
+  },
+  "sentiment_analysis": {
+    "total_comments_analyzed": 53,
+    "positive_comments": 9,
+    "negative_comments": 0,
+    "neutral_comments": 44,
+    "content_sentiment": {
+      "3499907650555583639": {
+        "positive": 1,
+        "negative": 0,
+        "neutral": 8,
+        "total": 9
+      },
+      "3593978197318893412": {
+        "positive": 1,
+        "negative": 0,
+        "neutral": 8,
+        "total": 9
+      },
+      "3593423152840447645": {
+        "positive": 1,
+        "negative": 0,
+        "neutral": 5,
+        "total": 6
+      },
+      "3592725198509955395": {
+        "positive": 2,
+        "negative": 0,
+        "neutral": 6,
+        "total": 8
+      },
+      "3594099534398197633": {
+        "positive": 2,
+        "negative": 0,
+        "neutral": 0,
+        "total": 2
+      },
+      "3594069159718343228": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 10,
+        "total": 10
+      },
+      "3594128390808314845": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 1,
+        "total": 1
+      },
+      "3593495357172678887": {
+        "positive": 1,
+        "negative": 0,
+        "neutral": 4,
+        "total": 5
+      },
+      "3593994113282008173": {
+        "positive": 1,
+        "negative": 0,
+        "neutral": 2,
+        "total": 3
+      }
+    },
+    "positive_percentage": 16.9811320754717,
+    "negative_percentage": 0.0,
+    "neutral_percentage": 83.01886792452831
+  }
+}
