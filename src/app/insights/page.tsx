@@ -12,6 +12,8 @@ export default function Insights() {
   const [insightData, setInsightData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedInsight, setSelectedInsight] = useState<string | null>(null);
+  const [isGeneratingInsight, setIsGeneratingInsight] = useState(false);
 
   useEffect(() => {
     const fetchInsights = async () => {
@@ -242,6 +244,168 @@ export default function Insights() {
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* Advanced Insights Generator */}
+          <Card className="col-span-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Lightbulb className="h-5 w-5 text-yellow-500" />
+                Ristorante Analytics Generator
+              </CardTitle>
+              <CardDescription>Generate powerful insights for your San Francisco Italian restaurant</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <Button 
+                  variant="outline" 
+                  className="flex items-center gap-2 h-auto py-3"
+                  onClick={() => {
+                    setIsGeneratingInsight(true);
+                    setTimeout(() => {
+                      setSelectedInsight('engagement');
+                      setIsGeneratingInsight(false);
+                    }, 1500);
+                  }}
+                  disabled={isGeneratingInsight}
+                >
+                  <TrendingUp className="h-5 w-5 text-blue-500" />
+                  <div className="text-left">
+                    <div className="font-medium">Diner Engagement Analysis</div>
+                    <div className="text-xs text-gray-500">Optimize your customer interaction</div>
+                  </div>
+                </Button>
+
+                <Button 
+                  variant="outline" 
+                  className="flex items-center gap-2 h-auto py-3"
+                  onClick={() => {
+                    setIsGeneratingInsight(true);
+                    setTimeout(() => {
+                      setSelectedInsight('content');
+                      setIsGeneratingInsight(false);
+                    }, 1500);
+                  }}
+                  disabled={isGeneratingInsight}
+                >
+                  <Target className="h-5 w-5 text-green-500" />
+                  <div className="text-left">
+                    <div className="font-medium">Menu Performance</div>
+                    <div className="text-xs text-gray-500">Identify high-performing dishes</div>
+                  </div>
+                </Button>
+
+                <Button 
+                  variant="outline" 
+                  className="flex items-center gap-2 h-auto py-3"
+                  onClick={() => {
+                    setIsGeneratingInsight(true);
+                    setTimeout(() => {
+                      setSelectedInsight('audience');
+                      setIsGeneratingInsight(false);
+                    }, 1500);
+                  }}
+                  disabled={isGeneratingInsight}
+                >
+                  <Eye className="h-5 w-5 text-purple-500" />
+                  <div className="text-left">
+                    <div className="font-medium">Customer Demographics</div>
+                    <div className="text-xs text-gray-500">Understand your SF diners</div>
+                  </div>
+                </Button>
+              </div>
+
+              {isGeneratingInsight && (
+                <div className="p-6 border rounded-lg bg-gray-50">
+                  <div className="flex items-center justify-center space-x-2 animate-pulse">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <div className="text-gray-500 text-sm">Generating insights...</div>
+                  </div>
+                </div>
+              )}
+
+              {selectedInsight === 'engagement' && !isGeneratingInsight && (
+                <div className="p-6 border rounded-lg bg-white">
+                  <h3 className="text-lg font-semibold mb-4 flex items-center">
+                    <TrendingUp className="h-5 w-5 text-blue-500 mr-2" />
+                    Diner Engagement Analysis Results
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <div className="w-2/5 font-medium">Peak Dining Hours:</div>
+                      <div className="w-3/5">6:30 PM - 8:45 PM (Weekdays), 7:15 PM - 9:30 PM (Weekends)</div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-2/5 font-medium">Table Turnover Rate:</div>
+                      <div className="w-3/5 flex items-center">
+                        1.8 hours <Badge className="ml-2 bg-green-100 text-green-800 border-0">-15 min vs Avg</Badge>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-2/5 font-medium">Review Sentiment:</div>
+                      <div className="w-3/5">Positive (92%) - Pasta dishes highlighted most</div>
+                    </div>
+                    <div className="mt-4 p-3 bg-blue-50 rounded-md">
+                      <p className="text-sm text-blue-700"><span className="font-medium">Recommendation:</span> Optimize staffing during peak hours (especially Fri-Sat) and implement a tableside digital feedback system to capture more customer insights while they dine.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {selectedInsight === 'content' && !isGeneratingInsight && (
+                <div className="p-6 border rounded-lg bg-white">
+                  <h3 className="text-lg font-semibold mb-4 flex items-center">
+                    <Target className="h-5 w-5 text-green-500 mr-2" />
+                    Menu Performance Analysis
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <div className="w-2/5 font-medium">Top Performing Dishes:</div>
+                      <div className="w-3/5">Truffle Risotto, Seafood Linguine, Tiramisu</div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-2/5 font-medium">Optimal Price Point:</div>
+                      <div className="w-3/5">$24-32 (Entrees), $12-18 (Appetizers)</div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-2/5 font-medium">Menu Gap:</div>
+                      <div className="w-3/5">Vegetarian/Vegan options, Gluten-free pasta alternatives</div>
+                    </div>
+                    <div className="mt-4 p-3 bg-green-50 rounded-md">
+                      <p className="text-sm text-green-700"><span className="font-medium">Recommendation:</span> Introduce a seasonal chef's tasting menu featuring your signature truffle dishes, and expand vegetarian options to capture the growing plant-based dining segment in SF.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {selectedInsight === 'audience' && !isGeneratingInsight && (
+                <div className="p-6 border rounded-lg bg-white">
+                  <h3 className="text-lg font-semibold mb-4 flex items-center">
+                    <Eye className="h-5 w-5 text-purple-500 mr-2" />
+                    Customer Demographics Report
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <div className="w-2/5 font-medium">Primary Customer Base:</div>
+                      <div className="w-3/5">30-45 years (38%), Tech professionals (52%)</div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-2/5 font-medium">Top Neighborhoods:</div>
+                      <div className="w-3/5">SoMa, Marina, North Beach, Mission District</div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-2/5 font-medium">Dining Preferences:</div>
+                      <div className="w-3/5">Wine pairings, Authentic Italian, Sustainable ingredients</div>
+                    </div>
+                    <div className="mt-4 p-3 bg-purple-50 rounded-md">
+                      <p className="text-sm text-purple-700"><span className="font-medium">Recommendation:</span> Launch a tech industry happy hour on Thursdays with Italian wine flights and small plates to attract the local tech professional demographic. Partner with local tech companies for private dining events.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
 
