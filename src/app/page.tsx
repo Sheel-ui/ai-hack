@@ -1,6 +1,6 @@
 "use client"; // Ensures this component runs on the client-side
 import { useState } from "react"; // For form state management
-import { Link2, Loader2, Send } from "lucide-react"; // Icons for form
+import { Link2, Loader2, Send, FileText } from "lucide-react"; // Icons for form
 import Image from "next/image"; // For optimized image
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -20,12 +20,11 @@ export default function Home() {
     }, 2000); // Simulating a 2-second loading time
   };
 
-
   return (
     <div className="h-screen w-screen flex justify-center">
       <div className="w-full max-w-lg p-6 space-y-6 bg-white rounded-lg shadow-md">
         {/* Title Section */}
-        <h1 className="text-2xl text-center font-semibold pt-12">Welcome to TrendBite</h1>
+        <h1 className="text-2xl text-center font-semibold pt-6">Welcome to TrendBite</h1>
         <p className="text-sm text-center text-gray-600">
           Paste your restaurant website or Instagram link, or fill out the form to get detailed marketing insights.
         </p>
@@ -50,6 +49,18 @@ export default function Home() {
             </Button>
           </div>
 
+          <div>
+            <div className="relative">
+              <div className="border border-black/5 w-full mt-10"></div>
+              <p className="bg-white absolute left-1/2 transform -translate-x-1/2 -top-3 px-2 text-muted-foreground text-small">OR</p>
+            </div>
+
+            <Button className="w-full mt-8">
+              <FileText />
+              Fill a form
+            </Button>
+          </div>
+
           {/* Loading Effect */}
           {isLoading && (
             <div className="flex justify-center items-center space-x-2 pt-4">
@@ -58,7 +69,7 @@ export default function Home() {
             </div>
           )}
         </div>
-        
+
         {/* Show the marketing insights and Get Started button */}
         {!isLoading && imageLoaded && (
           <div className="text-center space-y-4">
@@ -72,10 +83,10 @@ export default function Home() {
             />
 
             {/* Get Started Button */}
-            <Link href={'/dashboard'}>
-            <Button disabled={!imageLoaded}>
-              Get Started <span className="pl-2">🚀</span>
-            </Button>
+            <Link href={"/loading"}>
+              <Button disabled={!imageLoaded}>
+                Get Started <span className="pl-2">🚀</span>
+              </Button>
             </Link>
           </div>
         )}
