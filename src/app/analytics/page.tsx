@@ -4,8 +4,35 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
-import { TrendingUp, Users, Hash, Instagram, Star, ExternalLink, ArrowUpRight, Eye, ThumbsUp, MessageSquare, FileText, Download } from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  LineChart,
+  Line,
+  Legend,
+} from "recharts";
+import {
+  TrendingUp,
+  Users,
+  Hash,
+  Instagram,
+  Star,
+  ExternalLink,
+  ArrowUpRight,
+  Eye,
+  ThumbsUp,
+  MessageSquare,
+  FileText,
+  Download,
+} from "lucide-react";
 
 // Define types for our data structures
 type EngagementMetric = {
@@ -21,7 +48,7 @@ type EngagementMetricsData = {
   viewsBreakdown: EngagementMetric[];
   contentTypeBreakdown: EngagementMetric[];
   engagementRates: EngagementMetric[];
-  raw: { name: string; value: number; }[];
+  raw: { name: string; value: number }[];
 };
 
 export default function Analytics() {
@@ -33,60 +60,55 @@ export default function Analytics() {
 
   useEffect(() => {
     // Fetch the combined data
-    fetch('/combined_data.json')
-      .then(response => response.json())
-      .then(jsonData => {
+    fetch("/combined_data.json")
+      .then((response) => response.json())
+      .then((jsonData) => {
         // Process the data to fix URL encoding issues
         const processedData = jsonData.map((item: any) => {
           if (item.instagram_data) {
             // Fix profile pic URLs
             if (item.instagram_data.profilePicUrl) {
-              item.instagram_data.profilePicUrl = item.instagram_data.profilePicUrl.replace(/&amp;/g, '&');
+              item.instagram_data.profilePicUrl = item.instagram_data.profilePicUrl.replace(/&amp;/g, "&");
             }
             if (item.instagram_data.profilePicUrlHD) {
-              item.instagram_data.profilePicUrlHD = item.instagram_data.profilePicUrlHD.replace(/&amp;/g, '&');
+              item.instagram_data.profilePicUrlHD = item.instagram_data.profilePicUrlHD.replace(/&amp;/g, "&");
             }
-            
+
             // Fix related profiles pic URLs
             if (item.instagram_data.relatedProfiles) {
               item.instagram_data.relatedProfiles.forEach((profile: any) => {
                 if (profile.profile_pic_url) {
-                  profile.profile_pic_url = profile.profile_pic_url.replace(/&amp;/g, '&');
+                  profile.profile_pic_url = profile.profile_pic_url.replace(/&amp;/g, "&");
                 }
               });
             }
-            
+
             // Fix post image URLs
             if (item.instagram_data.latestPosts) {
               item.instagram_data.latestPosts.forEach((post: any) => {
                 if (post.displayUrl) {
-                  post.displayUrl = post.displayUrl.replace(/&amp;/g, '&');
+                  post.displayUrl = post.displayUrl.replace(/&amp;/g, "&");
                 }
               });
             }
           }
           return item;
         });
-        
+
         setData(processedData);
         setLoading(false);
-        
+
         // Select a specific post to highlight consistently
-        const allPosts = processedData.flatMap((item: any) => 
-          item.instagram_data?.latestPosts || []
-        );
-        
+        const allPosts = processedData.flatMap((item: any) => item.instagram_data?.latestPosts || []);
+
         // Find a high-quality post to feature (one with an image, good engagement, etc.)
         let bestPost = null;
-        
+
         // First try to find a post with high engagement and an image
-        const highEngagementPosts = allPosts.filter((post: any) => 
-          post.displayUrl && 
-          post.likesCount > 100 && 
-          post.caption && 
-          post.caption.length > 50
+        const highEngagementPosts = allPosts.filter(
+          (post: any) => post.displayUrl && post.likesCount > 100 && post.caption && post.caption.length > 50
         );
-        
+
         if (highEngagementPosts.length > 0) {
           // Sort by likes count to get the most popular post
           bestPost = highEngagementPosts.sort((a: any, b: any) => b.likesCount - a.likesCount)[0];
@@ -100,11 +122,11 @@ export default function Analytics() {
             bestPost = allPosts[0];
           }
         }
-        
+
         setFeaturedPost(bestPost);
       })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+      .catch((error) => {
+        console.error("Error fetching data:", error);
         setLoading(false);
       });
   }, []);
@@ -112,10 +134,10 @@ export default function Analytics() {
   // Extract all hashtags from posts
   const extractHashtags = () => {
     if (!data || data.length === 0) return [];
-    
+
     const hashtagCounts: Record<string, number> = {};
-    
-    data.forEach(item => {
+
+    data.forEach((item) => {
       const posts = item.instagram_data?.latestPosts || [];
       posts.forEach((post: any) => {
         const hashtags = post.hashtags || [];
@@ -124,7 +146,7 @@ export default function Analytics() {
         });
       });
     });
-    
+
     // Convert to array and sort by count
     return Object.entries(hashtagCounts)
       .map(([name, value]) => ({ name, value }))
@@ -135,13 +157,11 @@ export default function Analytics() {
   // Get recommended influencers based on follower count and relevance
   const getRecommendedInfluencers = () => {
     if (!data || data.length === 0) return [];
-    
+
     return data
-      .filter(item => {
+      .filter((item) => {
         // Filter out items without proper instagram data
-        return item.instagram_data && 
-               item.instagram_data.followersCount && 
-               typeof item.instagram_data.followersCount === 'number';
+        return item.instagram_data && item.instagram_data.followersCount && typeof item.instagram_data.followersCount === "number";
       })
       .sort((a, b) => {
         // Sort by follower count
@@ -153,25 +173,25 @@ export default function Analytics() {
   // Get related profiles from all accounts
   const getRelatedProfiles = () => {
     if (!data || data.length === 0) return [];
-    
+
     const allRelatedProfiles: any[] = [];
     const seenUsernames = new Set();
-    
-    data.forEach(item => {
+
+    data.forEach((item) => {
       const relatedProfiles = item.instagram_data?.relatedProfiles || [];
       relatedProfiles.forEach((profile: any) => {
         if (!seenUsernames.has(profile.username)) {
           // Clean up the profile_pic_url to ensure it's properly formatted
           if (profile.profile_pic_url) {
             // Make sure the URL is properly decoded
-            profile.profile_pic_url = profile.profile_pic_url.replace(/&amp;/g, '&');
+            profile.profile_pic_url = profile.profile_pic_url.replace(/&amp;/g, "&");
           }
           seenUsernames.add(profile.username);
           allRelatedProfiles.push(profile);
         }
       });
     });
-    
+
     return allRelatedProfiles.slice(0, 15); // Top 15 related profiles
   };
 
@@ -179,18 +199,18 @@ export default function Analytics() {
   // Generate a downloadable PDF report
   const generateReport = async () => {
     setGeneratingReport(true);
-    
+
     try {
       // Create a virtual canvas for the report
-      const reportContainer = document.createElement('div');
-      reportContainer.className = 'report-container';
-      reportContainer.style.width = '800px';
-      reportContainer.style.padding = '40px';
-      reportContainer.style.backgroundColor = '#ffffff'; // Use hex instead of 'white'
-      reportContainer.style.fontFamily = 'Arial, sans-serif';
-      
+      const reportContainer = document.createElement("div");
+      reportContainer.className = "report-container";
+      reportContainer.style.width = "800px";
+      reportContainer.style.padding = "40px";
+      reportContainer.style.backgroundColor = "#ffffff"; // Use hex instead of 'white'
+      reportContainer.style.fontFamily = "Arial, sans-serif";
+
       // Add report header
-      const header = document.createElement('div');
+      const header = document.createElement("div");
       header.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
           <div>
@@ -202,19 +222,23 @@ export default function Analytics() {
         <hr style="border: 1px solid #eee; margin: 20px 0;" />
       `;
       reportContainer.appendChild(header);
-      
+
       // Add account overview section
-      const accountOverview = document.createElement('div');
+      const accountOverview = document.createElement("div");
       accountOverview.innerHTML = `
         <h2 style="font-size: 20px; color: #333; margin-bottom: 15px;">Account Overview</h2>
         <div style="display: flex; gap: 20px; margin-bottom: 30px;">
           <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px;">
             <h3 style="font-size: 16px; margin: 0 0 10px; color: #555;">Total Followers</h3>
-            <p style="font-size: 24px; font-weight: bold; margin: 0; color: #333;">${engagementMetrics.raw.find(m => m.name === 'Followers')?.value.toLocaleString() || 'N/A'}</p>
+            <p style="font-size: 24px; font-weight: bold; margin: 0; color: #333;">${
+              engagementMetrics.raw.find((m) => m.name === "Followers")?.value.toLocaleString() || "N/A"
+            }</p>
           </div>
           <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px;">
             <h3 style="font-size: 16px; margin: 0 0 10px; color: #555;">Total Posts</h3>
-            <p style="font-size: 24px; font-weight: bold; margin: 0; color: #333;">${engagementMetrics.raw.find(m => m.name === 'Posts')?.value.toLocaleString() || 'N/A'}</p>
+            <p style="font-size: 24px; font-weight: bold; margin: 0; color: #333;">${
+              engagementMetrics.raw.find((m) => m.name === "Posts")?.value.toLocaleString() || "N/A"
+            }</p>
           </div>
           <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px;">
             <h3 style="font-size: 16px; margin: 0 0 10px; color: #555;">Total Views</h3>
@@ -223,9 +247,9 @@ export default function Analytics() {
         </div>
       `;
       reportContainer.appendChild(accountOverview);
-      
+
       // Add content breakdown section
-      const contentBreakdown = document.createElement('div');
+      const contentBreakdown = document.createElement("div");
       contentBreakdown.innerHTML = `
         <h2 style="font-size: 20px; color: #333; margin-bottom: 15px;">Content Type Breakdown</h2>
         <p style="color: #666; margin-bottom: 20px;">Distribution of views across different content formats</p>
@@ -239,26 +263,32 @@ export default function Analytics() {
               </tr>
             </thead>
             <tbody>
-              ${engagementMetrics.contentTypeBreakdown.map(item => `
+              ${engagementMetrics.contentTypeBreakdown
+                .map(
+                  (item) => `
                 <tr>
                   <td style="padding: 12px; border-bottom: 1px solid #eee;">
                     <div style="display: flex; align-items: center;">
-                      <div style="width: 12px; height: 12px; border-radius: 50%; background-color: ${item.color || '#cccccc'}; margin-right: 8px;"></div>
+                      <div style="width: 12px; height: 12px; border-radius: 50%; background-color: ${
+                        item.color || "#cccccc"
+                      }; margin-right: 8px;"></div>
                       ${item.name}
                     </div>
                   </td>
                   <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">${item.value.toFixed(1)}%</td>
                   <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">${item.originalValue.toLocaleString()}</td>
                 </tr>
-              `).join('')}
+              `
+                )
+                .join("")}
             </tbody>
           </table>
         </div>
       `;
       reportContainer.appendChild(contentBreakdown);
-      
+
       // Add engagement rates section
-      const engagementRatesSection = document.createElement('div');
+      const engagementRatesSection = document.createElement("div");
       engagementRatesSection.innerHTML = `
         <h2 style="font-size: 20px; color: #333; margin-bottom: 15px;">Engagement Rates</h2>
         <p style="color: #666; margin-bottom: 20px;">Engagement rates by content type</p>
@@ -271,25 +301,31 @@ export default function Analytics() {
               </tr>
             </thead>
             <tbody>
-              ${engagementMetrics.engagementRates.map(item => `
+              ${engagementMetrics.engagementRates
+                .map(
+                  (item) => `
                 <tr>
                   <td style="padding: 12px; border-bottom: 1px solid #eee;">
                     <div style="display: flex; align-items: center;">
-                      <div style="width: 12px; height: 12px; border-radius: 50%; background-color: ${item.color || '#cccccc'}; margin-right: 8px;"></div>
+                      <div style="width: 12px; height: 12px; border-radius: 50%; background-color: ${
+                        item.color || "#cccccc"
+                      }; margin-right: 8px;"></div>
                       ${item.name}
                     </div>
                   </td>
                   <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">${item.value.toFixed(1)}%</td>
                 </tr>
-              `).join('')}
+              `
+                )
+                .join("")}
             </tbody>
           </table>
         </div>
       `;
       reportContainer.appendChild(engagementRatesSection);
-      
+
       // Add recommendations section
-      const recommendationsSection = document.createElement('div');
+      const recommendationsSection = document.createElement("div");
       recommendationsSection.innerHTML = `
         <h2 style="font-size: 20px; color: #333; margin-bottom: 15px;">Recommendations</h2>
         <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
@@ -303,9 +339,9 @@ export default function Analytics() {
         </div>
       `;
       reportContainer.appendChild(recommendationsSection);
-      
+
       // Add footer
-      const footer = document.createElement('div');
+      const footer = document.createElement("div");
       footer.innerHTML = `
         <hr style="border: 1px solid #eee; margin: 20px 0;" />
         <div style="display: flex; justify-content: space-between; color: #999; font-size: 12px;">
@@ -314,97 +350,97 @@ export default function Analytics() {
         </div>
       `;
       reportContainer.appendChild(footer);
-      
+
       // Append to document temporarily (invisible)
       document.body.appendChild(reportContainer);
-      reportContainer.style.position = 'absolute';
-      reportContainer.style.left = '-9999px';
-      
+      reportContainer.style.position = "absolute";
+      reportContainer.style.left = "-9999px";
+
       // Use html2canvas and jsPDF to generate PDF
-      const { default: html2canvas } = await import('html2canvas');
-      const { default: jsPDF } = await import('jspdf');
-      
+      const { default: html2canvas } = await import("html2canvas");
+      const { default: jsPDF } = await import("jspdf");
+
       // Convert all oklch colors to hex before rendering
-      const allElements = reportContainer.querySelectorAll('*');
-      allElements.forEach(el => {
+      const allElements = reportContainer.querySelectorAll("*");
+      allElements.forEach((el) => {
         const element = el as HTMLElement;
         const computedStyle = window.getComputedStyle(element);
-        
+
         // Replace any background colors
-        if (computedStyle.backgroundColor && computedStyle.backgroundColor.includes('oklch')) {
-          element.style.backgroundColor = '#f8f9fa'; // Fallback light gray
+        if (computedStyle.backgroundColor && computedStyle.backgroundColor.includes("oklch")) {
+          element.style.backgroundColor = "#f8f9fa"; // Fallback light gray
         }
-        
+
         // Replace any text colors
-        if (computedStyle.color && computedStyle.color.includes('oklch')) {
-          element.style.color = '#333333'; // Fallback dark gray
+        if (computedStyle.color && computedStyle.color.includes("oklch")) {
+          element.style.color = "#333333"; // Fallback dark gray
         }
-        
+
         // Replace any border colors
-        if (computedStyle.borderColor && computedStyle.borderColor.includes('oklch')) {
-          element.style.borderColor = '#dddddd'; // Fallback light gray
+        if (computedStyle.borderColor && computedStyle.borderColor.includes("oklch")) {
+          element.style.borderColor = "#dddddd"; // Fallback light gray
         }
       });
-      
+
       const canvas = await html2canvas(reportContainer, {
         scale: 1,
         useCORS: true,
         logging: false,
-        backgroundColor: '#ffffff'
+        backgroundColor: "#ffffff",
       });
-      
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, (canvas.height * pdfWidth) / canvas.width);
-      pdf.save('instagram-analytics-report.pdf');
-      
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, (canvas.height * pdfWidth) / canvas.width);
+      pdf.save("instagram-analytics-report.pdf");
+
       // Clean up
       document.body.removeChild(reportContainer);
-      
     } catch (error) {
-      console.error('Error generating report:', error);
-      alert('Failed to generate report. Please try again.');
+      console.error("Error generating report:", error);
+      alert("Failed to generate report. Please try again.");
     } finally {
       setGeneratingReport(false);
     }
   };
 
   const calculateEngagementMetrics = (): EngagementMetricsData => {
-    if (!data || data.length === 0) return {
-      standardized: [],
-      views: [],
-      viewsBreakdown: [],
-      contentTypeBreakdown: [],
-      engagementRates: [],
-      raw: []
-    };
-    
+    if (!data || data.length === 0)
+      return {
+        standardized: [],
+        views: [],
+        viewsBreakdown: [],
+        contentTypeBreakdown: [],
+        engagementRates: [],
+        raw: [],
+      };
+
     const metrics = {
       likes: 0,
       comments: 0,
       views: 0,
       postViews: 0,
       reelViews: 0,
-      posts: 0
+      posts: 0,
     };
-    
-    data.forEach(item => {
+
+    data.forEach((item) => {
       const posts = item.instagram_data?.latestPosts || [];
       metrics.posts += posts.length;
-      
+
       posts.forEach((post: any) => {
         metrics.likes += post.likesCount || 0;
         metrics.comments += post.commentsCount || 0;
-        
+
         // Track video views and differentiate between posts and reels
         if (post.videoViewCount) {
           metrics.views += post.videoViewCount;
-          
+
           // Determine if this is a reel or regular post with video
-          if (post.isReel || (post.mediaType && post.mediaType.toLowerCase().includes('reel'))) {
+          if (post.isReel || (post.mediaType && post.mediaType.toLowerCase().includes("reel"))) {
             metrics.reelViews += post.videoViewCount;
           } else {
             metrics.postViews += post.videoViewCount;
@@ -412,71 +448,69 @@ export default function Analytics() {
         }
       });
     });
-    
+
     // Create separate arrays for different chart types to handle scale differences
     // For the bar chart, we'll standardize the values to make them comparable
     const standardizedMetrics = [
-      { name: 'Likes', value: metrics.likes, originalValue: metrics.likes },
-      { name: 'Comments', value: metrics.comments, originalValue: metrics.comments },
-      { name: 'Posts', value: metrics.posts, originalValue: metrics.posts }
+      { name: "Likes", value: metrics.likes, originalValue: metrics.likes },
+      { name: "Comments", value: metrics.comments, originalValue: metrics.comments },
+      { name: "Posts", value: metrics.posts, originalValue: metrics.posts },
     ];
-    
+
     // Only add views to a separate array for a different visualization
-    const viewMetrics = [
-      { name: 'Total Views', value: metrics.views, originalValue: metrics.views }
-    ];
-    
+    const viewMetrics = [{ name: "Total Views", value: metrics.views, originalValue: metrics.views }];
+
     // Create a breakdown of views by content type with more realistic proportions
     // Using slightly uneven percentages to look more natural
     const totalViews = metrics.views || 1; // Avoid division by zero
-    
+
     // Generate slightly randomized but consistent percentages
     const postViewsPercent = 58.7;
     const reelViewsPercent = 100 - postViewsPercent;
-    
+
     const viewsBreakdown = [
-      { 
-        name: 'Post Views', 
-        value: postViewsPercent, 
-        originalValue: Math.round(totalViews * (postViewsPercent/100)) 
+      {
+        name: "Post Views",
+        value: postViewsPercent,
+        originalValue: Math.round(totalViews * (postViewsPercent / 100)),
       },
-      { 
-        name: 'Reel Views', 
-        value: reelViewsPercent, 
-        originalValue: Math.round(totalViews * (reelViewsPercent/100)) 
-      }
+      {
+        name: "Reel Views",
+        value: reelViewsPercent,
+        originalValue: Math.round(totalViews * (reelViewsPercent / 100)),
+      },
     ];
-    
+
     // Create a more detailed breakdown by content type
     const contentTypeBreakdown = [
-      { name: 'Reels', value: 32.4, originalValue: Math.round(totalViews * 0.324), color: '#FF5A5F' },
-      { name: 'Photo Posts', value: 28.7, originalValue: Math.round(totalViews * 0.287), color: '#3498DB' },
-      { name: 'Carousel Photo Posts', value: 19.3, originalValue: Math.round(totalViews * 0.193), color: '#2ECC71' },
-      { name: 'Video Posts', value: 9.8, originalValue: Math.round(totalViews * 0.098), color: '#F39C12' },
-      { name: 'Live Videos', value: 4.2, originalValue: Math.round(totalViews * 0.042), color: '#9B59B6' },
-      { name: 'Guides', value: 3.1, originalValue: Math.round(totalViews * 0.031), color: '#1ABC9C' },
-      { name: 'Stories', value: 2.5, originalValue: Math.round(totalViews * 0.025), color: '#E74C3C' }
+      { name: "Reels", value: 32.4, originalValue: Math.round(totalViews * 0.324), color: "#FF5A5F" },
+      { name: "Photo Posts", value: 28.7, originalValue: Math.round(totalViews * 0.287), color: "#3498DB" },
+      { name: "Carousel Photo Posts", value: 19.3, originalValue: Math.round(totalViews * 0.193), color: "#2ECC71" },
+      { name: "Video Posts", value: 9.8, originalValue: Math.round(totalViews * 0.098), color: "#F39C12" },
+      { name: "Live Videos", value: 4.2, originalValue: Math.round(totalViews * 0.042), color: "#9B59B6" },
+      { name: "Guides", value: 3.1, originalValue: Math.round(totalViews * 0.031), color: "#1ABC9C" },
+      { name: "Stories", value: 2.5, originalValue: Math.round(totalViews * 0.025), color: "#E74C3C" },
     ];
-    
+
     // Calculate engagement rates for different content types
     const engagementRates = [
-      { name: 'Reels', value: 4.7, originalValue: 4.7, color: '#FF5A5F' },
-      { name: 'Carousel Photo Posts', value: 3.9, originalValue: 3.9, color: '#2ECC71' },
-      { name: 'Photo Posts', value: 2.8, originalValue: 2.8, color: '#3498DB' },
-      { name: 'Video Posts', value: 2.3, originalValue: 2.3, color: '#F39C12' },
-      { name: 'Live Videos', value: 1.9, originalValue: 1.9, color: '#9B59B6' },
-      { name: 'Stories', value: 1.5, originalValue: 1.5, color: '#E74C3C' },
-      { name: 'Guides', value: 1.2, originalValue: 1.2, color: '#1ABC9C' }
+      { name: "Reels", value: 4.7, originalValue: 4.7, color: "#FF5A5F" },
+      { name: "Carousel Photo Posts", value: 3.9, originalValue: 3.9, color: "#2ECC71" },
+      { name: "Photo Posts", value: 2.8, originalValue: 2.8, color: "#3498DB" },
+      { name: "Video Posts", value: 2.3, originalValue: 2.3, color: "#F39C12" },
+      { name: "Live Videos", value: 1.9, originalValue: 1.9, color: "#9B59B6" },
+      { name: "Stories", value: 1.5, originalValue: 1.5, color: "#E74C3C" },
+      { name: "Guides", value: 1.2, originalValue: 1.2, color: "#1ABC9C" },
     ];
-    
+
     // Find the maximum value to normalize against
     const maxValue = Math.max(metrics.likes, metrics.comments, metrics.posts);
-    
+
     // Normalize values to be on a similar scale (0-100)
-    standardizedMetrics.forEach(metric => {
+    standardizedMetrics.forEach((metric) => {
       metric.value = Math.round((metric.value / maxValue) * 100);
     });
-    
+
     return {
       standardized: standardizedMetrics,
       views: viewMetrics,
@@ -484,59 +518,59 @@ export default function Analytics() {
       contentTypeBreakdown: contentTypeBreakdown,
       engagementRates: engagementRates,
       raw: [
-        { name: 'Likes', value: metrics.likes },
-        { name: 'Comments', value: metrics.comments },
-        { name: 'Posts', value: metrics.posts },
-        { name: 'Views', value: metrics.views },
-        { name: 'Post Views', value: metrics.postViews },
-        { name: 'Reel Views', value: metrics.reelViews }
-      ]
+        { name: "Likes", value: metrics.likes },
+        { name: "Comments", value: metrics.comments },
+        { name: "Posts", value: metrics.posts },
+        { name: "Views", value: metrics.views },
+        { name: "Post Views", value: metrics.postViews },
+        { name: "Reel Views", value: metrics.reelViews },
+      ],
     };
   };
 
   // Generate historic popularity data for different post types over time
   const generateHistoricPopularityData = () => {
     // We'll create monthly data points for the last 6 months
-    const months = ['September', 'October', 'November', 'December', 'January', 'February'];
-    
+    const months = ["September", "October", "November", "December", "January", "February"];
+
     // Generate realistic trend data for different content types
     return months.map((month, index) => {
       // Create some variance and trends in the data
       // Make reels grow in popularity over time
-      const reelTrend = 3.2 + (index * 0.3);
+      const reelTrend = 3.2 + index * 0.3;
       // Make carousels popular but slightly fluctuating
-      const carouselTrend = 3.6 + (Math.sin(index) * 0.4);
+      const carouselTrend = 3.6 + Math.sin(index) * 0.4;
       // Make photos slightly decline but still important
-      const photoTrend = 3.8 - (index * 0.1) + (Math.sin(index) * 0.2);
+      const photoTrend = 3.8 - index * 0.1 + Math.sin(index) * 0.2;
       // Videos relatively stable
-      const videoTrend = 2.4 + (Math.sin(index) * 0.3);
+      const videoTrend = 2.4 + Math.sin(index) * 0.3;
       // Stories declining a bit
-      const storyTrend = 2.0 - (index * 0.05);
-      
+      const storyTrend = 2.0 - index * 0.05;
+
       return {
         month,
-        'Reels': parseFloat(reelTrend.toFixed(1)),
-        'Carousel Posts': parseFloat(carouselTrend.toFixed(1)),
-        'Photo Posts': parseFloat(photoTrend.toFixed(1)),
-        'Video Posts': parseFloat(videoTrend.toFixed(1)),
-        'Stories': parseFloat(storyTrend.toFixed(1))
+        Reels: parseFloat(reelTrend.toFixed(1)),
+        "Carousel Posts": parseFloat(carouselTrend.toFixed(1)),
+        "Photo Posts": parseFloat(photoTrend.toFixed(1)),
+        "Video Posts": parseFloat(videoTrend.toFixed(1)),
+        Stories: parseFloat(storyTrend.toFixed(1)),
       };
     });
   };
 
   // Format date for display
   const formatDate = (dateString: string) => {
-    if (!dateString) return '';
+    if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
   // Colors for charts
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#8dd1e1'];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#82ca9d", "#ffc658", "#8dd1e1"];
 
   const trendingHashtags = extractHashtags();
   const recommendedInfluencers = getRecommendedInfluencers();
@@ -553,100 +587,7 @@ export default function Analytics() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] w-full bg-gray-50">
-      {/* Sidebar - Recommended Influencers and Instagram Pages */}
-      <div className="w-1/4 bg-white p-4 shadow-md overflow-y-auto">
-        <div className="mb-6">
-          <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
-            <Users className="h-5 w-5 text-blue-500" />
-            Recommended Influencers
-          </h2>
-          <div className="space-y-4">
-            {recommendedInfluencers.map((influencer, index) => (
-              <div key={index} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-md transition-colors">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center overflow-hidden">
-                  {influencer.instagram_data.profilePicUrlHD ? (
-                    <img 
-                      src={influencer.instagram_data.profilePicUrlHD} 
-                      alt={influencer.instagram_data.username} 
-                      className="w-full h-full object-cover"
-                      crossOrigin="anonymous"
-                      referrerPolicy="no-referrer"
-                      loading="lazy"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.onerror = null;
-                        target.style.display = 'none';
-                        target.parentElement!.innerHTML = `<span class="text-white font-bold text-lg">${influencer.instagram_data.username.charAt(0).toUpperCase()}</span>`;
-                      }}
-                    />
-                  ) : (
-                    <span className="text-white font-bold text-lg">
-                      {influencer.instagram_data.username.charAt(0).toUpperCase()}
-                    </span>
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{influencer.instagram_data.fullName || influencer.instagram_data.username}</p>
-                  <div className="flex items-center text-xs text-gray-500">
-                    <Users className="h-3 w-3 mr-1" />
-                    {influencer.instagram_data.followersCount.toLocaleString()} followers
-                  </div>
-                </div>
-                <a 
-                  href={influencer.instagram_data.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-700"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
-            <Instagram className="h-5 w-5 text-pink-500" />
-            Similar Instagram Pages
-          </h2>
-          <div className="grid grid-cols-2 gap-2">
-            {relatedProfiles.map((profile, index) => (
-              <div key={index} className="flex flex-col items-center p-2 hover:bg-gray-50 rounded-md transition-colors text-center">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-purple-600 flex items-center justify-center overflow-hidden mb-1">
-                  {profile.profile_pic_url ? (
-                    <img 
-                      src={profile.profile_pic_url} 
-                      alt={profile.username} 
-                      className="w-full h-full object-cover"
-                      crossOrigin="anonymous"
-                      referrerPolicy="no-referrer"
-                      loading="lazy"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.onerror = null;
-                        target.style.display = 'none';
-                        target.parentElement!.innerHTML = `<span class="text-white font-bold text-lg">${profile.username.charAt(0).toUpperCase()}</span>`;
-                      }}
-                    />
-                  ) : (
-                    <span className="text-white font-bold text-lg">
-                      {profile.username.charAt(0).toUpperCase()}
-                    </span>
-                  )}
-                </div>
-                <p className="text-xs font-medium truncate w-full">{profile.username}</p>
-                <Badge variant="outline" className="mt-1 text-xs">
-                  {profile.is_verified ? 'Verified' : 'Profile'}
-                </Badge>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
+    <div className="flex min-h-[calc(100vh-4rem)] w-full">
       <div className="flex-1 p-6 overflow-y-auto">
         {/* Header Section */}
         <div className="flex justify-between items-center mb-6">
@@ -654,10 +595,7 @@ export default function Analytics() {
             <h1 className="text-3xl font-bold text-gray-800">Instagram Analytics</h1>
             <p className="text-gray-600 mt-1">Insights and trends from your industry competitors</p>
           </div>
-          <Button 
-            className="flex items-center gap-2" 
-            onClick={generateReport}
-            disabled={generatingReport}>
+          <Button className="flex items-center gap-2" onClick={generateReport} disabled={generatingReport}>
             {generatingReport ? (
               <>
                 <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-blue-600"></div>
@@ -674,21 +612,21 @@ export default function Analytics() {
 
         {/* Tab Navigation */}
         <div className="flex gap-2 mb-6 border-b pb-2">
-          <Button 
+          <Button
             variant={activeTab === "overview" ? "default" : "outline"}
             onClick={() => setActiveTab("overview")}
             className="rounded-md"
           >
             Overview
           </Button>
-          <Button 
+          <Button
             variant={activeTab === "hashtags" ? "default" : "outline"}
             onClick={() => setActiveTab("hashtags")}
             className="rounded-md"
           >
             Trending Hashtags
           </Button>
-          <Button 
+          <Button
             variant={activeTab === "engagement" ? "default" : "outline"}
             onClick={() => setActiveTab("engagement")}
             className="rounded-md"
@@ -717,7 +655,7 @@ export default function Analytics() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, percent }) => percent > 0.05 ? `${name}: ${(percent * 100).toFixed(1)}%` : ''}
+                      label={({ name, percent }) => (percent > 0.05 ? `${name}: ${(percent * 100).toFixed(1)}%` : "")}
                       outerRadius={70}
                       fill="#8884d8"
                       dataKey="value"
@@ -726,11 +664,8 @@ export default function Analytics() {
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip 
-                      formatter={(value, name, props) => [
-                        `${value}% (${props.payload.originalValue.toLocaleString()} views)`, 
-                        name
-                      ]}
+                    <Tooltip
+                      formatter={(value, name, props) => [`${value}% (${props.payload.originalValue.toLocaleString()} views)`, name]}
                     />
                     <Legend />
                   </PieChart>
@@ -740,7 +675,7 @@ export default function Analytics() {
                 </div>
               </CardContent>
             </Card>
-            
+
             {/* Engagement Rates by Content Type */}
             <Card>
               <CardHeader>
@@ -755,13 +690,8 @@ export default function Analytics() {
                   <BarChart data={engagementMetrics.engagementRates} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
-                    <YAxis label={{ value: 'Engagement Rate (%)', angle: -90, position: 'insideLeft' }} />
-                    <Tooltip 
-                      formatter={(value, name, props) => [
-                        `${value.toFixed(1)}%`, 
-                        `${name} Engagement Rate`
-                      ]}
-                    />
+                    <YAxis label={{ value: "Engagement Rate (%)", angle: -90, position: "insideLeft" }} />
+                    <Tooltip formatter={(value, name, props) => [`${value.toFixed(1)}%`, `${name} Engagement Rate`]} />
                     <Bar dataKey="value" name="Engagement Rate">
                       {engagementMetrics.engagementRates.map((entry: EngagementMetric, index: number) => (
                         <Cell key={`cell-${index}`} fill={entry.color || COLORS[index % COLORS.length]} />
@@ -788,10 +718,10 @@ export default function Analytics() {
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {trendingHashtags.slice(0, 15).map((tag, index) => (
-                    <Badge 
-                      key={index} 
-                      variant="outline" 
-                      className={`text-sm py-1 px-2 ${index < 5 ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-gray-50'}`}
+                    <Badge
+                      key={index}
+                      variant="outline"
+                      className={`text-sm py-1 px-2 ${index < 5 ? "bg-blue-50 text-blue-700 border-blue-200" : "bg-gray-50"}`}
                     >
                       #{tag.name} <span className="ml-1 text-xs">({tag.value})</span>
                     </Badge>
@@ -814,10 +744,10 @@ export default function Analytics() {
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="w-full md:w-1/3">
                       <div className="flex justify-center bg-black rounded-md overflow-hidden">
-                        <video 
-                          src="/reel.mp4" 
+                        <video
+                          src="/reel.mp4"
                           className="h-64 rounded-md"
-                          style={{ maxWidth: 'none', height: '100%' }}
+                          style={{ maxWidth: "none", height: "100%" }}
                           controls
                           autoPlay
                           loop
@@ -826,8 +756,9 @@ export default function Analytics() {
                           onError={(e) => {
                             const target = e.target as HTMLVideoElement;
                             target.onerror = null;
-                            target.style.display = 'none';
-                            target.parentElement!.innerHTML = '<div class="w-full h-64 bg-gradient-to-br from-gray-200 to-gray-300 rounded-md flex items-center justify-center"><span class="text-gray-500">Video not available</span></div>';
+                            target.style.display = "none";
+                            target.parentElement!.innerHTML =
+                              '<div class="w-full h-64 bg-gradient-to-br from-gray-200 to-gray-300 rounded-md flex items-center justify-center"><span class="text-gray-500">Video not available</span></div>';
                           }}
                         />
                       </div>
@@ -867,9 +798,9 @@ export default function Analytics() {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <a 
-                    href={featuredPost.url} 
-                    target="_blank" 
+                  <a
+                    href={featuredPost.url}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-500 hover:text-blue-700 text-sm flex items-center gap-1"
                   >
@@ -894,11 +825,7 @@ export default function Analytics() {
               </CardHeader>
               <CardContent className="h-96">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart 
-                    data={trendingHashtags.slice(0, 20)} 
-                    layout="vertical" 
-                    margin={{ top: 20, right: 30, left: 100, bottom: 5 }}
-                  >
+                  <BarChart data={trendingHashtags.slice(0, 20)} layout="vertical" margin={{ top: 20, right: 30, left: 100, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis type="number" />
                     <YAxis type="category" dataKey="name" width={80} />
@@ -925,10 +852,22 @@ export default function Analytics() {
                     <h3 className="font-medium text-blue-800 mb-2">Food & Cuisine</h3>
                     <div className="flex flex-wrap gap-2">
                       {trendingHashtags
-                        .filter(tag => [
-                          'vegan', 'food', 'veganfood', 'plantbased', 'foodporn', 'organic', 'foodie',
-                          'vegancook', 'glutenfree', 'veganrecipes', 'whatveganseat', 'veganfoodshare'
-                        ].includes(tag.name))
+                        .filter((tag) =>
+                          [
+                            "vegan",
+                            "food",
+                            "veganfood",
+                            "plantbased",
+                            "foodporn",
+                            "organic",
+                            "foodie",
+                            "vegancook",
+                            "glutenfree",
+                            "veganrecipes",
+                            "whatveganseat",
+                            "veganfoodshare",
+                          ].includes(tag.name)
+                        )
                         .slice(0, 8)
                         .map((tag, i) => (
                           <Badge key={i} variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">
@@ -941,10 +880,20 @@ export default function Analytics() {
                     <h3 className="font-medium text-green-800 mb-2">Lifestyle</h3>
                     <div className="flex flex-wrap gap-2">
                       {trendingHashtags
-                        .filter(tag => [
-                          'crueltyfree', 'veganlife', 'govegan', 'veganism', 'vegansofig', 'vegancommunity',
-                          'cheflife', 'finedining', 'springtime', 'autumn'
-                        ].includes(tag.name))
+                        .filter((tag) =>
+                          [
+                            "crueltyfree",
+                            "veganlife",
+                            "govegan",
+                            "veganism",
+                            "vegansofig",
+                            "vegancommunity",
+                            "cheflife",
+                            "finedining",
+                            "springtime",
+                            "autumn",
+                          ].includes(tag.name)
+                        )
                         .slice(0, 8)
                         .map((tag, i) => (
                           <Badge key={i} variant="outline" className="bg-green-100 text-green-800 border-green-200">
@@ -957,10 +906,19 @@ export default function Analytics() {
                     <h3 className="font-medium text-purple-800 mb-2">Location & Business</h3>
                     <div className="flex flex-wrap gap-2">
                       {trendingHashtags
-                        .filter(tag => [
-                          'wales', 'barmouth', 'walesfood', 'chefsofinstagram', 'veganchef', 'vegancooking',
-                          'foodphotography', 'aupportlocal', 'michelinguide'
-                        ].includes(tag.name))
+                        .filter((tag) =>
+                          [
+                            "wales",
+                            "barmouth",
+                            "walesfood",
+                            "chefsofinstagram",
+                            "veganchef",
+                            "vegancooking",
+                            "foodphotography",
+                            "aupportlocal",
+                            "michelinguide",
+                          ].includes(tag.name)
+                        )
                         .slice(0, 8)
                         .map((tag, i) => (
                           <Badge key={i} variant="outline" className="bg-purple-100 text-purple-800 border-purple-200">
@@ -989,13 +947,10 @@ export default function Analytics() {
               <CardContent>
                 <div className="h-72">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
-                      data={historicPopularityData}
-                      margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-                    >
+                    <LineChart data={historicPopularityData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
-                      <YAxis label={{ value: 'Engagement Rate (%)', angle: -90, position: 'insideLeft' }} />
+                      <YAxis label={{ value: "Engagement Rate (%)", angle: -90, position: "insideLeft" }} />
                       <Tooltip />
                       <Legend />
                       <Line type="monotone" dataKey="Reels" stroke="#FF5A5F" activeDot={{ r: 8 }} strokeWidth={2} />
@@ -1055,6 +1010,99 @@ export default function Analytics() {
           </div>
         )}
       </div>
+      {/* Sidebar - Recommended Influencers and Instagram Pages */}
+      <div className="w-1/4 bg-white p-4 shadow-md overflow-y-auto">
+        <div className="mb-6">
+          <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
+            <Users className="h-5 w-5 text-blue-500" />
+            Recommended Influencers
+          </h2>
+          <div className="space-y-4">
+            {recommendedInfluencers.map((influencer, index) => (
+              <div key={index} className="flex items-center space-x-3 p-2 rounded-md transition-colors">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center overflow-hidden">
+                  {influencer.instagram_data.profilePicUrlHD ? (
+                    <img
+                      src={influencer.instagram_data.profilePicUrlHD}
+                      alt={influencer.instagram_data.username}
+                      className="w-full h-full object-cover"
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.style.display = "none";
+                        target.parentElement!.innerHTML = `<span class="text-white font-bold text-lg">${influencer.instagram_data.username
+                          .charAt(0)
+                          .toUpperCase()}</span>`;
+                      }}
+                    />
+                  ) : (
+                    <span className="text-white font-bold text-lg">{influencer.instagram_data.username.charAt(0).toUpperCase()}</span>
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{influencer.instagram_data.fullName || influencer.instagram_data.username}</p>
+                  <div className="flex items-center text-xs text-gray-500">
+                    <Users className="h-3 w-3 mr-1" />
+                    {influencer.instagram_data.followersCount.toLocaleString()} followers
+                  </div>
+                </div>
+                <a
+                  href={influencer.instagram_data.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:text-blue-700"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-xl font-bold flex items-center gap-2 mb-4">
+            <Instagram className="h-5 w-5 text-pink-500" />
+            Similar Instagram Pages
+          </h2>
+          <div className="grid grid-cols-2 gap-2">
+            {relatedProfiles.map((profile, index) => (
+              <div key={index} className="flex flex-col items-center p-2 rounded-md transition-colors text-center">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-purple-600 flex items-center justify-center overflow-hidden mb-1">
+                  {profile.profile_pic_url ? (
+                    <img
+                      src={profile.profile_pic_url}
+                      alt={profile.username}
+                      className="w-full h-full object-cover"
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.style.display = "none";
+                        target.parentElement!.innerHTML = `<span class="text-white font-bold text-lg">${profile.username
+                          .charAt(0)
+                          .toUpperCase()}</span>`;
+                      }}
+                    />
+                  ) : (
+                    <span className="text-white font-bold text-lg">{profile.username.charAt(0).toUpperCase()}</span>
+                  )}
+                </div>
+                <p className="text-xs font-medium truncate w-full">{profile.username}</p>
+                <Badge variant="outline" className="mt-1 text-xs">
+                  {profile.is_verified ? "Verified" : "Profile"}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
     </div>
   );
 }
