@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -691,7 +693,7 @@ export default function Analytics() {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis label={{ value: "Engagement Rate (%)", angle: -90, position: "insideLeft" }} />
-                    <Tooltip formatter={(value, name, props) => [`${value.toFixed(1)}%`, `${name} Engagement Rate`]} />
+                    {/* <Tooltip formatter={(value, name, props) => [`${value.toFixed(1)}%`, `${name} Engagement Rate`]} /> */}
                     <Bar dataKey="value" name="Engagement Rate">
                       {engagementMetrics.engagementRates.map((entry: EngagementMetric, index: number) => (
                         <Cell key={`cell-${index}`} fill={entry.color || COLORS[index % COLORS.length]} />
@@ -1022,9 +1024,11 @@ export default function Analytics() {
               <div key={index} className="flex items-center space-x-3 p-2 rounded-md transition-colors">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center overflow-hidden">
                   {influencer.instagram_data.profilePicUrlHD ? (
-                    <img
+                    <Image
                       src={influencer.instagram_data.profilePicUrlHD}
                       alt={influencer.instagram_data.username}
+                      width={50} // Specify a width (adjust as needed)
+                      height={50} // Specify a height (adjust as needed)
                       className="w-full h-full object-cover"
                       crossOrigin="anonymous"
                       referrerPolicy="no-referrer"
@@ -1072,20 +1076,18 @@ export default function Analytics() {
               <div key={index} className="flex flex-col items-center p-2 rounded-md transition-colors text-center">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-purple-600 flex items-center justify-center overflow-hidden mb-1">
                   {profile.profile_pic_url ? (
-                    <img
-                      src={profile.profile_pic_url}
+                    <Image
+                      src={profile.profile_pic_url || "/default-profile-pic.jpg"}
                       alt={profile.username}
                       className="w-full h-full object-cover"
                       crossOrigin="anonymous"
                       referrerPolicy="no-referrer"
                       loading="lazy"
+                      width={50} // Adjust width as needed
+                      height={50} // Adjust height as needed
                       onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.onerror = null;
-                        target.style.display = "none";
-                        target.parentElement!.innerHTML = `<span class="text-white font-bold text-lg">${profile.username
-                          .charAt(0)
-                          .toUpperCase()}</span>`;
+                        const target = e.currentTarget;
+                        target.src = "/default-profile-pic.jpg"; // Fallback image
                       }}
                     />
                   ) : (
