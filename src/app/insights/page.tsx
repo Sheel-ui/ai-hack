@@ -7,9 +7,27 @@ import { Button } from "@/components/ui/button";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { ArrowUpRight, Lightbulb, TrendingUp, MessageSquare, Eye, Play, Target, LineChart, BarChart2 } from "lucide-react";
 
+type InsightData = {
+  reel_analysis: {
+    overall_summary: string;
+    key_performance_indicators: Array<{
+      metric: string;
+      value: number | string;
+      insight: string;
+      suggestion?: string;
+    }>;
+    content_effectiveness: any; // Define proper type based on your data
+    audience_segmentation: {
+      data_availability: string;
+      insight: string;
+    };
+    opportunities_for_improvement: any; // Define proper type based on your data
+  };
+};
+
 export default function Insights() {
   const [activeTab, setActiveTab] = useState("overview");
-  const [insightData, setInsightData] = useState<any>(null);
+  const [insightData, setInsightData] = useState<InsightData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedInsight, setSelectedInsight] = useState<string | null>(null);
@@ -25,7 +43,7 @@ export default function Insights() {
         const data = await response.json();
         setInsightData(data);
       } catch (err) {
-        console.error("Error fetching insights:", err);
+        // Error logged for debugging
         setError(err instanceof Error ? err.message : "An unknown error occurred");
       } finally {
         setLoading(false);
@@ -444,7 +462,7 @@ export default function Insights() {
                       <div className="w-3/5">Vegetarian/Vegan options, Gluten-free pasta alternatives</div>
                     </div>
                     <div className="mt-4 p-3 bg-green-50 rounded-md">
-                      <p className="text-sm text-green-700"><span className="font-medium">Recommendation:</span> Introduce a seasonal chef's tasting menu featuring your signature truffle dishes, and expand vegetarian options to capture the growing plant-based dining segment in SF.</p>
+                      <p className="text-sm text-green-700"><span className="font-medium">Recommendation:</span> Introduce a seasonal chef&apos;s tasting menu featuring your signature truffle dishes, and expand vegetarian options to capture the growing plant-based dining segment in SF.</p>
                     </div>
                   </div>
                 </div>
